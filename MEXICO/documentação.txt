@@ -1,0 +1,6 @@
+FINTOC
+https://docs.fintoc.com/guides/business-accounts/use-cases/run-a-wallet-for-end-users
+
+
+Claude artifact
+https://claude.ai/artifact/U2LDuL4AFSzDXyPuF51iXe#266083a9-33a8

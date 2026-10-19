@@ -1,0 +1,145 @@
+# Objetivo da exploração
+
+Definir o modelo operacional técnico para a operação no México: estrutura de contas na Fintech parceira, limites de requisições, modelo de tarifas e ausência de onboarding por cliente. Secundariamente: discutir necessidade de QA e reforço de time.
+
+---
+
+# Contexto do domínio
+
+A SAQ está expandindo para o México usando uma Fintech local como gateway de pagamentos (equivalente ao papel do SPI no Brasil). O produto é BaaS/whitelabel: clientes do Júnior (ex.: Noclife México) precisam transacionar via SAQ sem passar por onboarding individual na Fintech. A operação mexicana não tem o mesmo nível regulatório do Brasil (sem equivalente ao Bacen, sem limite de transação, sem reclame).
+
+---
+
+# Mapa — sistemas, repos e fluxos
+
+Só mencionado (não visto ao vivo):
+
+- Fintech parceira no México: conta principal (SAQ) atua como gateway
+- Estrutura de contas: conta SAQ (entidade) → subcontas/mirrors internas → clientes transacionam sem onboarding na Fintech
+- RFC: documento fiscal mexicano equivalente ao CNPJ, exigido para abertura de conta na Fintech
+- SPEI: sistema de pagamento mexicano referenciado como equivalente ao Pix
+- Bolsão: modelo de conta única na Fintech com orquestração interna de saldos
+- Modelo de tarifa: construído internamente na SAQ, não via API da Fintech; cobrado por transação (cash-in/cash-out); tarifa vai para subconta SAQ
+- Cronograma de escalonamento de preço da Fintech: a partir de 600 mil transações o preço cai; meta citada de 0,40 por transação ao atingir volume alto
+- Portal: web (extrato apenas, sem transferência) + back-office
+
+---
+
+# Decisões
+
+- Estrutura de contas: uma única conta SAQ na Fintech (entidade), subcontas abertas via API sem onboarding nem documentação do cliente final. Argumento: Fintech não exige KYC para subcontas; modelo já validado por outro operador (chinês). Decidido por Caio Cesar + Rodrigo Barros + Gabriel.
+- Limite de requisições: solicitar aumento de 10 para 50 transações por segundo. Argumento: 10 req/s = ~800 mil/dia, insuficiente para meta de 5 milhões+. Decidido por Rodrigo Barros com concordância de Júnior e Caio.
+- Tarifas: implementar na camada SAQ (não usar API de tarifas da Fintech). Decidido por Caio + Júnior.
+- Tarifa vai para subconta SAQ, mesmo modelo já existente.
+- Portal: front-end apenas para extrato, sem transferência. Decidido por Matheus Falcão.
+- QA: contratar um perfil de QA (negócio + entendimento técnico de regra de negócio, sem mexer em código). Decisão em andamento, Júnior autorizou busca.
+
+---
+
+# Hipóteses e em aberto
+
+- Caio mencionou operador (chinês) que transaciona direto na conta principal sem subconta nem documento: não está claro como isso foi viabilizado. Falta validar se é exceção ou se o modelo de subcontas é realmente obrigatório.
+- Limite de 50 req/s: precisa ser formalizado por e-mail à Fintech. Não confirmado se a Fintech aceita o aumento.
+- Prazo de 5 dias para abertura de conta na Fintech: impacto no onboarding de novos clientes não foi detalhado.
+- Primeiro cliente piloto (“primeira bet”): não foi definido quem será.
+- Modelo de tarifa: valor ou percentual não foi fechado na call.
+- Lima como tech lead de Antecipação: intenção do Falcão, não comunicada formalmente. Márcio vai para CCB enquanto não há substituto.
+- “Yuri 2”: contratar outro perfil de sustentação/DevOps para dividir carga com Yuri. Em avaliação.
+
+---
+
+# Gaps e riscos
+
+- Sem fiscalização regulatória no México: ausência de equivalente ao Bacen/reclame pode ser vantagem operacional, mas também ausência de proteção. Ninguém apontou risco explícito, mas foi dito “lá não é Brasil”.
+- Meta de volume (5 milhões a 50 milhões de transações/mês) vs. limite atual de 10 req/s: risco de gargalo se o aumento não for aprovado antes do go-live. Apontado por Rodrigo Barros e Júnior.
+- Ausência de QA formal: deploys chegando em produção com bugs. Apontado por Matheus Falcão (“subiram coisa em produção que não funcionou essa semana”).
+- Yuri centraliza infra/DevOps sem delegar: single point of failure em sustentação. Apontado por Rodrigo Barros e Matheus Falcão.
+
+---
+
+# Para operar sozinho
+
+- Saber que a conta SAQ na Fintech é a entidade raiz: não se opera por ela diretamente.
+- Saber que subcontas são abertas via API da Fintech sem exigir documento do cliente final.
+- Confirmar com Caio Cesar as credenciais/chaves da conta SAQ na Fintech antes de qualquer integração.
+- Solicitar por e-mail à Fintech o aumento do limite de 10 para 50 req/s (ou mais) antes de escalar volume.
+- Implementar tarifas (cash-in/cash-out) na camada SAQ, não via API da Fintech.
+- Entrar no grupo de WhatsApp do México (Munir é admin): pedir para Munir adicionar Rodrigo Barros e Gabriel se ainda não estiver.
+- Mateus já está no grupo; Caio Cesar é o contato técnico na Fintech parceira.
+- Não criar múltiplas contas na Fintech: apenas uma conta SAQ + subcontas internas.
+
+---
+
+# Ação — Rodrigo Barros
+
+- Revisar documentação da Fintech junto com Mateus para mapear fluxo de tarifas e limites.
+- Entrar no grupo de WhatsApp do México (aguardar Munir adicionar).
+- Continuar desenvolvimento da parte final do cashout na Antecipação.
+- Revisar teste do Lucas (candidato) que já enviou mensagem.
+
+---
+
+# Ação — outros
+
+Gabriel Araujo Almeida Barros:
+
+- Levantar pontos técnicos da documentação da Fintech e enviar para Caio Cesar para ajuste com o time deles.
+
+Caio Cesar (?):
+
+- Confirmar com a Fintech o aumento do limite de requisições (de 10 para 50 req/s).
+- Compartilhar chaves/credenciais da conta SAQ na Fintech com o time.
+- Investigar como o operador chinês transaciona sem subconta/documento.
+
+Jose Vieira Junior:
+
+- Definir primeiro cliente piloto para a operação no México.
+- Buscar perfil de QA (negócio + regra de negócio técnica).
+- Não esquecer demandas da Simpay.
+
+Matheus Falcão:
+
+- Alocar outro dev para ajudar no México e agilizar entrega.
+- Avaliar contratação de “Yuri 2” para sustentação/DevOps.
+- Pensar formalmente na transição do Lima para tech lead de Antecipação.
+
+Munir (?):
+
+- Adicionar Rodrigo Barros e Gabriel ao grupo de WhatsApp do México.
+
+---
+
+# Links e artefatos
+
+Nenhum link ou artefato explícito citado.
+
+---
+
+# Números e identificadores
+
+- Limite atual da Fintech: 10 transações/segundo
+- Equivalente diário: ~800 mil transações/dia (cálculo feito por Gabriel na call; também citado 864 mil)
+- Meta de volume: 5 milhões de transações/mês (referência inicial); 50 milhões citado por Júnior; 100 milhões mencionado como planejamento de grupo
+- Limite solicitado: 50 transações/segundo
+- Prazo de abertura de conta na Fintech: 5 dias úteis
+- Tarifa alvo: R$ 0,40 por transação a partir de volume alto (~56 milhões citado por Caio)
+- Volume a partir do qual o preço cai: 600 mil transações
+
+---
+
+# Quem falou
+
+- Rodrigo Barros (aparece como “Me”)
+- Gabriel Araujo Almeida Barros
+- Caio Cesar (não verificado)
+- Jose Vieira Junior
+- Matheus Falcão
+
+---
+
+# Ambientes e tenants citados
+
+- SAQ (áudio: “SAC”) — conta principal na Fintech parceira no México
+- Fintech parceira no México (áudio: “Fintalk”, “Fintech Line”) — nome real não confirmado, grafado como “(?)” para o nome exato
+- Simpay (áudio: “SimPayline”)
+- SocRed (áudio: “Socred”)

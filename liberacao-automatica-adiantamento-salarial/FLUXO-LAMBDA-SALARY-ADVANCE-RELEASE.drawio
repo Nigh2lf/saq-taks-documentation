@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" agent="Claude Code" version="24.7.17">
+  <diagram id="salary-advance-release-lambda" name="Lambda salary-advance-release">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="2339" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="&lt;b&gt;lambda-aws-anticipation-salary-advance-release — fluxo completo com exceções&lt;/b&gt;&lt;br&gt;Fila comum anticipation-salary-advance-release (DLQ, maxReceiveCount 3, visibility 360s) · batch_size=1 · lambda_timeout 60s · lock Valkey TTL 90s" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1100" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Coluna principal -->
+        <mxCell id="sqs" value="&lt;b&gt;Mensagem SQS recebida&lt;/b&gt;&lt;br&gt;{ &quot;type&quot;: &quot;ANTICIPATION_SALARY&quot;, &quot;contract_id&quot;: … }&lt;br&gt;publicada pela api-v3 (pedido com 3 flags ligadas) ou pelo backoffice (aprovar / reprocessar / republicar), sempre após o commit" style="rounded=1;arcSize=50;fontStyle=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="380" y="100" width="320" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="valid" value="JSON válido,&lt;br&gt;type = ANTICIPATION_SALARY&lt;br&gt;e contract_id presente?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="420" y="230" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="discard" value="&lt;b&gt;Descarta com log&lt;/b&gt;&lt;br&gt;JSONDecodeError / ValueError&lt;br&gt;mensagem consumida · NÃO vai para a DLQ&lt;br&gt;(erro do produtor, decisão de desenho)" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="240" width="260" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="init" value="&lt;b&gt;initialization()&lt;/b&gt; (só no cold start)&lt;br&gt;secrets → sessões PRIMARY (banco SAQ, razão) e SECONDARY (banco antecipação) · SQS · Valkey (MEMORYDB_HOST)" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="380" y="370" width="320" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="lock" value="&lt;b&gt;lock.acquire()&lt;/b&gt; não bloqueante&lt;br&gt;chave salary_advance:release:{contract_id} · TTL 90s &gt; timeout 60s&lt;br&gt;token por dono (só quem adquiriu solta)" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="380" y="490" width="320" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="gotlock" value="Conseguiu o lock?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="440" y="610" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Caminho sem lock (coluna direita) -->
+        <mxCell id="getc2" value="Outra execução está neste contrato&lt;br&gt;_get_contract(contract_id) (SECONDARY)" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="800" y="620" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rip" value="Contrato ainda em&lt;br&gt;RELEASE_IN_PROGRESS?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="820" y="720" width="240" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="noop2" value="&lt;b&gt;No-op&lt;/b&gt;: a outra execução já concluiu&lt;br&gt;log · mensagem consumida" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="800" y="850" width="280" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Caixa única de "exceção sobe" -->
+        <mxCell id="dlq" value="&lt;b&gt;Exceção sobe → mensagem volta para a fila&lt;/b&gt;&lt;br&gt;finally solta o lock (falha ao soltar = só log, TTL expira)&lt;br&gt;Chalice falha o batch (1 msg) · invisível por 360s · reentrega passa de novo pelo lock e pelo guard de status&lt;br&gt;&lt;b&gt;3ª falha → DLQ&lt;/b&gt; (rede de segurança, tratamento manual)" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="900" width="320" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- Continua a coluna principal -->
+        <mxCell id="getc" value="&lt;b&gt;1. _get_contract&lt;/b&gt; (SECONDARY)&lt;br&gt;carrega contrato → ContractDTO (principal, tarifa = service_amount, status, conta do funcionário gravada no contrato)&lt;br&gt;&lt;i&gt;exceção: contrato não encontrado · credit_product ≠ ANTICIPATION_SALARY (fila errada)&lt;/i&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="380" y="740" width="320" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="status" value="&lt;b&gt;2. Guard&lt;/b&gt;&lt;br&gt;status = RELEASE_IN_PROGRESS?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="420" y="880" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="noop" value="&lt;b&gt;Nada a liberar&lt;/b&gt;&lt;br&gt;reentrega, contrato cancelado/reprocessado no meio ou já ANTICIPATED&lt;br&gt;log · mensagem consumida" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="890" width="260" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="reg" value="&lt;b&gt;3. _register_transaction&lt;/b&gt; (PRIMARY, 1 transação, commit no fim)&lt;br&gt;• liquidação e recebimento por agência+número (Valkey) — exceção se não achar ou CLOSING&lt;br&gt;• conta do funcionário pelo client_account_mirror_id — exceção se nulo, não achada, ≠ ACTIVE ou agência/número ≠ gravados&lt;br&gt;• bolsões das 3 contas — exceção se não achar&lt;br&gt;• grava CLIENT_DEBIT, CLIENT_CREDIT (+ FEE_DEBIT, FEE_CREDIT se tarifa &gt; 0); pula lançamento já existente (idempotente)" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="380" y="1030" width="320" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="exe" value="&lt;b&gt;4. _execute_transaction&lt;/b&gt; (só Valkey, tx_id = id do contrato)&lt;br&gt;• débito do principal na liquidação — None (saldo insuficiente ou chave não inicializada) → exceção&lt;br&gt;• crédito do líquido (principal − tarifa) no funcionário — chave não inicializada → ValueError&lt;br&gt;• crédito da tarifa no recebimento, se tarifa &gt; 0&lt;br&gt;cada operação deixa chave pendente: repetir não mexe no saldo" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="380" y="1220" width="320" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- Caminho de ERROR (coluna direita) -->
+        <mxCell id="err" value="&lt;b&gt;except Exception&lt;/b&gt; → log + _update_contract(ERROR)&lt;br&gt;(SECONDARY, FOR UPDATE, só se ainda RELEASE_IN_PROGRESS)" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="800" y="1120" width="280" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="errok" value="Conseguiu gravar?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="840" y="1230" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="errfinal" value="&lt;b&gt;Contrato e posições em ERROR&lt;/b&gt; · mensagem consumida&lt;br&gt;razão pode ter lançamentos e a liquidação pode já estar debitada no cache (chave pendente fica, reprocesso não debita de novo)&lt;br&gt;Backoffice: &lt;b&gt;reprocessar&lt;/b&gt; (→ RELEASE_IN_PROGRESS, republica) ou cancelar — &lt;b&gt;409 se houver lançamento no razão&lt;/b&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="800" y="1350" width="280" height="140" as="geometry" />
+        </mxCell>
+
+        <mxCell id="upd" value="&lt;b&gt;5. _update_contract(ANTICIPATED)&lt;/b&gt; (SECONDARY, FOR UPDATE)&lt;br&gt;contrato + posições → ANTICIPATED, updated_at&lt;br&gt;&lt;i&gt;se o status já não é RELEASE_IN_PROGRESS (só por UPDATE manual): log de erro, return False e o fluxo segue para o confirm&lt;/i&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="380" y="1400" width="320" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="conf" value="&lt;b&gt;6. _confirm_transaction&lt;/b&gt; (só Valkey)&lt;br&gt;apaga as chaves pendentes do débito (liquidação) e dos créditos (funcionário, recebimento se tarifa)&lt;br&gt;a partir daqui repetir a operação moveria dinheiro de novo" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="380" y="1550" width="320" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="unlock" value="&lt;b&gt;finally: lock.release()&lt;/b&gt;&lt;br&gt;falha ao soltar (cache fora, chave expirada) = só log; a chave expira pelo TTL" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="380" y="1680" width="320" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="end" value="&lt;b&gt;Sucesso&lt;/b&gt; · log &quot;completed successfully&quot; · mensagem consumida" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="380" y="1790" width="320" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Notas -->
+        <mxCell id="note_ledger" value="&lt;b&gt;Lançamentos no razão (finance_accountbanktransaction)&lt;/b&gt;&lt;br&gt;uuid = transaction_id = id do contrato · internal_transfer&lt;br&gt;&lt;br&gt;ANTICIPATION_CLIENT_DEBIT — liquidação — principal&lt;br&gt;ANTICIPATION_CLIENT_CREDIT — funcionário — principal&lt;br&gt;ANTICIPATION_FEE_DEBIT — funcionário — tarifa (se &gt; 0)&lt;br&gt;ANTICIPATION_FEE_CREDIT — recebimento — tarifa (se &gt; 0)&lt;br&gt;&lt;br&gt;&lt;b&gt;Movimentos no cache&lt;/b&gt; (Valkey)&lt;br&gt;liquidação − principal · funcionário + (principal − tarifa) · recebimento + tarifa" style="shape=note;size=14;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;spacingRight=8;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1220" width="300" height="200" as="geometry" />
+        </mxCell>
+
+        <mxCell id="note_order" value="&lt;b&gt;Por que ANTICIPATED vem antes do confirm&lt;/b&gt;&lt;br&gt;O cache é idempotente só enquanto a chave pendente existe, e o confirm a apaga. Então:&lt;br&gt;• falha nos passos 3–4 → ERROR, reprocesso seguro (lançamentos reutilizados, chaves ainda existem)&lt;br&gt;• falha no passo 5 → não vira ERROR; reentrega refaz 3 e 4 sem efeito e tenta o 5 de novo&lt;br&gt;• falha no passo 6 → já ANTICIPATED; reentrega é no-op pelo guard; chaves pendentes ficam para tratamento manual&lt;br&gt;Não há estorno: o único caminho de correção é reprocessar." style="shape=note;size=14;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;spacingRight=8;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1460" width="300" height="230" as="geometry" />
+        </mxCell>
+
+        <mxCell id="legend" value="&lt;b&gt;Legenda&lt;/b&gt;&lt;br&gt;verde = passo do caminho feliz · azul = decisão · amarelo = saída sem desembolso (mensagem consumida) · vermelho = ERROR ou mensagem de volta à fila/DLQ" style="shape=note;size=14;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;spacingRight=8;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1730" width="300" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Arestas: caminho principal -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="sqs" target="valid"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e2" value="não" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="valid" target="discard"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e3" value="sim" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="valid" target="init"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="init" target="lock"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4x" value="exceção (secret, banco, Valkey)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;strokeColor=#b85450;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="init" target="dlq"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1320" y="410" /></Array></mxGeometry></mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="lock" target="gotlock"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e6" value="não" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="gotlock" target="getc2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="getc2" target="rip"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e8" value="não" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="rip" target="noop2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e9" value="sim → raise ReleaseInProgressError" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;strokeColor=#b85450;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="rip" target="dlq"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e10" value="sim" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="gotlock" target="getc"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e11x" value="exceção: não encontrado / produto errado" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;strokeColor=#b85450;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="getc" target="dlq"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1120" y="815" /><mxPoint x="1120" y="965" /></Array></mxGeometry></mxCell>
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="getc" target="status"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e12" value="não" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="status" target="noop"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e13" value="sim" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="status" target="reg"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="reg" target="exe"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e14x" value="exceção" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;strokeColor=#d6b656;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="reg" target="err"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="750" y="1105" /><mxPoint x="750" y="1138" /></Array></mxGeometry></mxCell>
+        <mxCell id="e15x" value="exceção" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;strokeColor=#d6b656;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="exe" target="err"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="750" y="1290" /><mxPoint x="750" y="1173" /></Array></mxGeometry></mxCell>
+        <mxCell id="e16" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="err" target="errok"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e17" value="sim (ou status ≠ RELEASE_IN_PROGRESS: log e False)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="errok" target="errfinal"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e18" value="exceção ao gravar (banco fora)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;strokeColor=#b85450;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="errok" target="dlq"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1240" y="1270" /></Array></mxGeometry></mxCell>
+        <mxCell id="e19" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="exe" target="upd"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e20x" value="exceção (banco fora): NÃO vira ERROR, dinheiro já no cache; reentrega refaz 3–4 sem efeito e tenta o 5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;strokeColor=#b85450;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="upd" target="dlq"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1320" y="1455" /></Array></mxGeometry></mxCell>
+        <mxCell id="e20" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="upd" target="conf"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e21x" value="exceção (Valkey fora): já ANTICIPATED; reentrega é no-op; chaves pendentes ficam para tratamento manual" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;strokeColor=#b85450;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="conf" target="dlq"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1400" y="1595" /></Array></mxGeometry></mxCell>
+        <mxCell id="e21" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="conf" target="unlock"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e22" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="unlock" target="end"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

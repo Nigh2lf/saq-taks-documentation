@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" agent="Claude Code" version="24.7.17">
+  <diagram id="payroll-auto-release" name="Liberação automática">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="2339" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="&lt;b&gt;Antecipação salarial — liberação automática para o empregado&lt;/b&gt;&lt;br&gt;Fluxo acordado com o TL em 06/10/2026. As cores mostram o que já existe e o que falta." style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=12;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="760" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="start" value="Empregado solicita o adiantamento&lt;br&gt;POST /v3/anticipation/accounts/{agência}/{conta}/payroll/advances" style="rounded=1;arcSize=50;fontStyle=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="100" width="300" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="calc" value="API autentica, resolve o CPF do titular da conta&lt;br&gt;e calcula saldo, tarifa e valor liberado" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="210" width="300" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="dry" value="dryRun?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="370" y="320" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="sim" value="200 · simulação&lt;br&gt;nada é gravado" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="325" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="grava" value="Grava contrato, item e foto do pedido&lt;br&gt;contract_creditagreement (com a conta do pedido) · contract_loanposition · contract_salaryadvance (com a decisão automatic_release)" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="440" width="300" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="auto" value="Liberação automática?&lt;br&gt;global &lt;b&gt;E&lt;/b&gt; empregador &lt;b&gt;E&lt;/b&gt; funcionário&lt;br&gt;(lidas na hora do pedido)" style="rhombus;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="320" y="555" width="260" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="flags" value="&lt;b&gt;As três flags&lt;/b&gt; (default: desligadas)&lt;br&gt;• Global (o banco): parameter_default.payroll_automatic_release&lt;br&gt;• Empregador: payroll_employer.is_automatic_release&lt;br&gt;• Funcionário: payroll_employee.is_automatic_release&lt;br&gt;Empregador e funcionário ligados pelo backoffice. Onboarding e planilha sempre entram desligados." style="shape=note;size=14;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;spacingRight=8;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="700" y="420" width="300" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="rip" value="Contrato e item nascem em&lt;br&gt;RELEASE_IN_PROGRESS" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="720" width="300" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="commit" value="Commit da transação&lt;br&gt;200 para o empregado" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="820" width="300" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="fila" value="&lt;b&gt;Fila nova&lt;/b&gt; anticipation-salary-advance-release (+ DLQ)&lt;br&gt;mensagem {type: ANTICIPATION_SALARY, contract_id}&lt;br&gt;enviada só depois do commit" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="930" width="300" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="lambda" value="&lt;b&gt;Lambda nova&lt;/b&gt; anticipation-salary-advance-release&lt;br&gt;molde da credit-release · só age se o contrato está em RELEASE_IN_PROGRESS" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="1050" width="300" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="paga" value="Lançamentos iguais aos da nota, sem intermediários:&lt;br&gt;principal: conta de liquidação → conta do funcionário gravada no contrato (a escolhida no pedido)&lt;br&gt;tarifa: conta espelho → conta de recebimento&lt;br&gt;líquido na conta = pedido − tarifa" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="1170" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="ok" value="Pagamento&lt;br&gt;concluído?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="350" y="1300" width="200" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="falha" value="Lambda marca contrato e item em &lt;b&gt;ERROR&lt;/b&gt;&lt;br&gt;(status do PR #53 do repository)&lt;br&gt;continua consumindo o saldo do ciclo&lt;br&gt;não tenta de novo sozinha" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="20" y="1305" width="240" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="reproc" value="Operador vê o ERROR no backoffice e decide:&lt;br&gt;reprocessar (volta a RELEASE_IN_PROGRESS e publica na fila)&lt;br&gt;ou cancelar (só se nenhum lançamento foi executado)" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="20" y="1170" width="240" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="cancel2" value="CANCELLED&lt;br&gt;o valor volta ao saldo do ciclo" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="20" y="1060" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="antecipado" value="Lambda marca contrato e item em ANTICIPATED&lt;br&gt;dinheiro na conta do empregado&lt;br&gt;(único lugar que marca ANTICIPATED)" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="1450" width="300" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="baixa" value="Empresa paga o salário&lt;br&gt;rotina do SAQ faz o split e dá a baixa → LIQUIDATED&lt;br&gt;(rotina futura)" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="1570" width="300" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pend" value="Contrato e item ficam em PENDING_RELEASE&lt;br&gt;aguardam o backoffice (como hoje)" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="700" y="580" width="280" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="aprova" value="Operador&lt;br&gt;aprova?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="750" y="695" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="cancel" value="Contrato e item em CANCELLED&lt;br&gt;o valor volta ao saldo do ciclo" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="705" width="230" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="bo" value="PATCH /v3/salary-advances/{id}/status&lt;br&gt;muda para RELEASE_IN_PROGRESS e publica na fila nova&lt;br&gt;(hoje vai direto para ANTICIPATED, sem pagar)" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="700" y="835" width="280" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="start" target="calc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="calc" target="dry">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="sim" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="dry" target="sim">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="não" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="dry" target="grava">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="grava" target="auto">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="as três ligadas" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="auto" target="rip">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="qualquer uma desligada" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="auto" target="pend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="rip" target="commit">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="commit" target="fila">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="pend" target="aprova">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="não" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="aprova" target="cancel">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="sim" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="aprova" target="bo">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" value="após o commit" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="bo" target="fila">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="fila" target="lambda">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="lambda" target="paga">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="paga" target="ok">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" value="não" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ok" target="falha">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="falha" target="reproc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" value="reprocessar" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="reproc" target="fila">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="280" y="1192" />
+              <mxPoint x="280" y="970" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e22" value="cancelar" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="reproc" target="cancel2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" value="sim" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ok" target="antecipado">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e21" value="no pagamento do salário" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;dashed=1;" edge="1" parent="1" source="antecipado" target="baixa">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_t" value="&lt;b&gt;Legenda&lt;/b&gt;" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=12;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="100" width="200" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_existe" value="Já existe (master ou PRs #59 / #47 / #62), sem alteração" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="134" width="300" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_ajuste" value="Existe, mas precisa de ajuste" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="180" width="300" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_novo" value="Novo" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="226" width="300" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_regra" value="Fora de escopo agora / ainda em aberto" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="272" width="300" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="regras" value="&lt;b&gt;Decisões fechadas com o TL (06/10)&lt;/b&gt;&lt;br&gt;• Três flags em E lógico, lidas na hora do pedido; nenhuma validação no cadastro. Default desligado em todos os níveis; flag desligada = fluxo manual, não bloqueio.&lt;br&gt;• Fila e lambda novas, separadas da nota (manutenção e concorrência).&lt;br&gt;• Aprovação manual passa pela mesma lambda: só ela marca ANTICIPATED.&lt;br&gt;• Lançamentos iguais aos da nota, nas mesmas contas de liquidação e recebimento.&lt;br&gt;• Falha: lambda marca ERROR; operador reprocessa ou cancela no backoffice. DLQ só como rede de segurança.&lt;br&gt;• ERROR continua consumindo o saldo do ciclo (evita pedido em dobro).&lt;br&gt;• Conta de pagamento: a escolhida no pedido, gravada no contrato (colunas do PR #57); a lambda paga nela, não resolve pelo CPF.&lt;br&gt;• Cancelar ERROR: só sem lançamento executado; senão, só reprocessar.&lt;br&gt;• Chave global: payroll_automatic_release. Decisão gravada em contract_salaryadvance.automatic_release.&lt;br&gt;• Notificação ao funcionário: fora de escopo por enquanto." style="shape=note;size=14;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;spacingRight=8;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="340" width="300" height="420" as="geometry" />
+        </mxCell>
+        <mxCell id="aberto" value="&lt;b&gt;Ainda em aberto&lt;/b&gt;&lt;br&gt;• Rotina de split do salário: gatilho, origem do pagamento da empresa e pagamento a menos. Até existir, a baixa continua manual.&lt;br&gt;• Estorno de lançamentos parciais (por isso o cancelamento de ERROR é restrito).&lt;br&gt;• Infra: fila, DLQ, roles e repositório da lambda — pedido a ser feito pelo Rodrigo.&lt;br&gt;• Pré-requisitos de terceiros: PRs #57 (repository) e #54 (api-v3) e a branch feature/anticipation-credit-release-account-v1 da lambda da nota." style="shape=note;size=14;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;spacingRight=8;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="790" width="300" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="onde" value="&lt;b&gt;Onde mexer (ordem combinada)&lt;/b&gt;&lt;br&gt;1. saq-infra: fila + DLQ (Pulumi app-eks:sqs), roles; repositório da lambda; chave SQS_ANTICIPATION_SALARY_ADVANCE_RELEASE no apps-configs&lt;br&gt;2. anticipation-repository: trazer o #57; is_automatic_release em payroll_employer e payroll_employee, automatic_release em contract_salaryadvance + migration (ERROR já vem do #53)&lt;br&gt;3. anticipation-backoffice-api: flags no CRUD de empregador/funcionário; aprovação e reprocesso publicam na fila nova. Branch deve nascer de feature/payroll-anticipated-solicitation&lt;br&gt;4. anticipation-api-v3: ler as três flags; gravar conta e decisão; publicar na fila nova&lt;br&gt;5. lambda-aws-anticipation-salary-advance-release: pagar, marcar ANTICIPATED ou ERROR" style="shape=note;size=14;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;spacingRight=8;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="1020" width="300" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="obs" value="&lt;b&gt;Observações&lt;/b&gt;&lt;br&gt;• Os commits de 05/10 em feature/payroll-automatic-release (flag global única, fila e lambda da nota, rota de notas aceitando contrato salarial no backoffice) foram feitos antes dessas decisões e precisam de rework. Os PRs abertos a partir deles foram fechados.&lt;br&gt;• A lambda da nota foi lida no código: 4 lançamentos por contrato (débito/crédito do principal, débito/crédito da tarifa) mais intermediários, idempotentes por tipo de transação." style="shape=note;size=14;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;spacingRight=8;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="1350" width="300" height="200" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
