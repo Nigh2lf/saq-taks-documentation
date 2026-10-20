@@ -1,26 +1,64 @@
 # Operação México — o que aproveitar da SaQ e o que criar do zero
 
-Levantado em 19/10/2026 a partir do código do workspace. Premissa: **banco de dados separado** para o México. Complementa `OperacaoMexico.md` e `Pendencias.md`.
+Levantado em 19/10/2026 a partir do código do workspace. Premissa: o México é um **produto totalmente separado**, com banco, backoffice (API e frontend) e autenticação próprios. O core da SaQ não entra no caminho de login. Complementa `OperacaoMexico.md` e `Pendencias.md`.
 
 ## 1. Resumo
 
-- **A SaQ já tem o molde exato.** Crypto (`crypto-apps/`) e Antecipação (`anticipation-apps/`) são produtos com banco próprio, repository próprio e libs próprias. Eles usam o core da SaQ só em modo leitura, para login, permissões e empresa. O México deve seguir o mesmo desenho, numa pasta `mexico-apps/`.
-- **A plataforma é reaproveitada como está:** libs base, login/JWT, permissões, CI/deploy.
-- **Os padrões são copiados e adaptados:** onboarding, ledger no Valkey, tarifas, webhooks para o cliente, extrato, backoffice.
+- **A SaQ tem o molde, mas o México vai além dele.** Crypto (`crypto-apps/`) e Antecipação (`anticipation-apps/`) são produtos com banco próprio, repository próprio e libs próprias, mas usam o core da SaQ em modo leitura para login, permissões e empresa. O México segue a mesma estrutura de pastas (`mexico-apps/`) e **não abre o banco do core**: usuário, login e policies ficam no banco do México (seção 6).
+- **A plataforma é reaproveitada como está:** libs base, validação de JWT, CI/deploy.
+- **Os padrões são copiados e adaptados:** login e MFA, onboarding, ledger no Valkey, tarifas, webhooks para o cliente, extrato, backoffice.
 - **Tudo que fala com o SPEI é novo:** cliente Fintoc, receptor de webhook da Fintoc, máquina de estados do envio, conciliação, CLABE, KYC mexicano e telas.
 - **Diferença em relação aos precedentes.** Crypto e Antecipação **não têm ledger próprio**: movimentam dinheiro na conta SaQ do core, em `finance_accountbanktransaction` e no saldo do Valkey. Com banco separado e MXN, o México precisa de **ledger próprio**. Nenhum produto hoje faz isso.
 
 ## 2. Estrutura proposta
 
 ```
+NOVO — repositórios do México
 mexico-apps/
-  mexico-repository/          novo — copiar o esqueleto do anticipation-repository
-  mexico-shared-libraries/    novo — pacote mexico-fintoc-client (molde: crypto-b2b-client)
-  mexico-api-v3/              portal do cliente + API pública + receptor de webhook Fintoc (molde: crypto-api-v3)
-  mexico-backoffice-api/      molde: anticipation-backoffice-api
+  mexico-repository/          copiar o esqueleto do anticipation-repository (alembic, base model, publicação)
+  mexico-shared-libraries/    pacotes mexico-fintoc-client (molde: crypto-b2b-client), mexico-permissions, mexico-cache (Lua scripts com prefixo mx:)
+  mexico-api-v3/              portal do cliente + API pública + login (/v3/auth/*) + receptor de webhook Fintoc (molde: crypto-api-v3)
+  mexico-backoffice-api/      molde: anticipation-backoffice-api, com login de operador próprio
+  mexico-backoffice-frontend/ app novo (shell e componentes copiados do backoffice-whitelabel-frontend)
+  mexico-portal-frontend/     app novo (base: portal-whitelabel-frontend)
   lambdas/                    SPEI OUT, SPEI IN, webhooks para o cliente, conciliação
   cron-jobs/                  conciliação diária, varredura de tarifa (se for essa a opção)
+
+COMPARTILHADO — repositórios da SaQ consumidos como estão
+shared/saq-shared-libraries/
+  packages/saq-base-api/      FastAPI base: health, CORS, erro, paginação, métricas, i18n (+ locale es-MX)
+  packages/saq-base-repository/  sessões async, SessionManager, BaseRepository, lock nomeado
+  packages/saq-utilities/     só auth (JWT, bitmap, UserRolesProtocol), aws, http (BaseAPIClient), exceptions, cache, sqs, tracing
+shared/saq-ci/                workflows docker-kustomize-deploy, chalice-deploy, publish-codeartifact
+apps-v3/Kubernetes-manifest/
+  mexico-apps/                manifests do México, namespace apps-mexico, config-commons-mexico
+apps-v3/saq-infra/            RDS, ECR, filas e segredos do México declarados aqui
+
+MOLDE — copiados como código, nunca importados
+apps-v3/auth-token-api-v3, user-api-v3, saq-backoffice-api        login, MFA, senha, token e CRUD de usuários
+crypto-apps/crypto-api-v3, lambda-aws-crypto-order-processing     config, wiring, webhook do provedor, envio com estados
+anticipation-apps/anticipation-backoffice-api, anticipation-repository   backoffice, scopes, auditoria, repository
+shared/saq-shared-libraries/packages/saq-cache-client            padrão das Lua scripts de saldo
+apps-v3/lambdas/lambda-aws-company-notification-event            motor de webhooks para o cliente
+apps-frontend/portal-whitelabel-frontend, backoffice-whitelabel-frontend   base dos apps novos
 ```
+
+Na opção 3 do `Comparativo-Arquitetura.md` (infra própria), `saq-ci`, `Kubernetes-manifest` e `saq-infra` saem do bloco COMPARTILHADO e vão para MOLDE: os workflows e manifests são copiados para `mexico-apps/` e apontam para a conta AWS do México.
+
+### Repositórios da SaQ usados de forma compartilhada
+
+Os repositórios abaixo não são copiados: o México os consome como estão. Tudo o que não está nesta lista é copiado para `mexico-apps/` ou criado do zero.
+
+| Repositório | O que o México usa | Como consome | Observação |
+|---|---|---|---|
+| `shared/saq-shared-libraries` | pacote `saq-base-api` | versão fixada no `requirements.txt`, via CodeArtifact | precisa ganhar o locale `es-MX` |
+| `shared/saq-shared-libraries` | pacote `saq-base-repository` | idem | sem mudança |
+| `shared/saq-shared-libraries` | pacote `saq-utilities`, só os módulos `auth`, `aws`, `http`, `exceptions`, `cache`, `sqs` e tracing | idem | os helpers do Brasil (`CPF/CNPJ`, ISPB, Pix, moeda, fuso) ficam fora por convenção; a lib não separa isso em pacotes |
+| `shared/saq-ci` | workflows `docker-kustomize-deploy.yml`, `chalice-deploy.yml`, `publish-codeartifact.yml` | `uses: SaQDigital/saq-ci/...@master` no workflow de cada app | na opção 3 do `Comparativo-Arquitetura.md`, os workflows são copiados e apontam para a conta AWS do México |
+| `apps-v3/Kubernetes-manifest` | repo único de manifests, ArgoCD, pasta `config-commons-*` por produto | pasta `mexico-apps/` dentro do repo, namespace `apps-mexico` | na opção 3, os manifests vivem no repositório do México e apontam para cluster próprio |
+| `apps-v3/saq-infra` | definição de RDS, ECR, segredos e filas | novos recursos declarados no mesmo repo | na opção 3, conta AWS própria; o repo pode continuar sendo o lugar da definição ou ganhar um irmão `mexico-infra` |
+
+Os demais pacotes de `saq-shared-libraries` (`saq-cache-client`, `saq-permissions`, `saq-report-filters`, `saq-caf-client`, `saq-novavida-client`, `saq-bacen-sta-client`) e o `shared/saq-repository` **não** são consumidos: ou carregam o core, ou são do Brasil. O `saq-cache-client` serve só como molde para copiar o padrão das Lua scripts (seção 4).
 
 ### Arquivos de referência
 
@@ -28,7 +66,12 @@ mexico-apps/
 |---|---|
 | Repository (alembic, base model, publicação) | `anticipation-apps/anticipation-repository/`: `migrations/env.py`, `monorepo_setup.py`, `setup.py`, `VERSION`, `Dockerfile` |
 | Nomenclatura de tabelas | `anticipation-apps/anticipation-repository/NOMENCLATURA-BANCO.md`. A cópia do crypto é mais antiga |
-| Config com dois bancos (`CORE_READ` + `MEXICO_WRITE`) | `crypto-apps/crypto-api-v3/main/config.py`, `main/db.py`, `main/app.py` |
+| Config, startup e wiring do auth (um banco só: `MEXICO_WRITE`) | `crypto-apps/crypto-api-v3/main/config.py`, `main/db.py`, `main/app.py`. Tirar a sessão `CORE_READ` |
+| Login web em dois passos (senha → token temporário → TOTP), login API por `client_id`/`client_secret`, emissão do JWT, lockout | `apps-v3/auth-token-api-v3/main/routes/v3/web_token.py`, `routes/v2/auth_token.py`, `helpers/token_helper.py`, `helpers/login_lockout.py`, `helpers/validate_mfa_token.py`, `helpers/verify_password.py` |
+| Registro de MFA, troca e reset de senha | `apps-v3/user-api-v3/main/routes/v3/` (`mfa.py`, `change_password.py`, `change_password_temporary.py`, `reset_password.py`) |
+| Token e login do operador de backoffice | `apps-v3/saq-backoffice-api/main/helpers/jwt_helper.py`, `helpers/backoffice_user.py`, `helpers/login_lockout.py` |
+| CRUD de usuários, roles e policies do backoffice | `apps-v3/saq-backoffice-api/main/routes/v3/` (`backoffice_users.py`, `users_web.py`, `user_roles.py`) |
+| Modelos de identidade (usuário, role, policy, vínculo usuário↔conta, OTP, tentativas de login, reset de senha) | `shared/saq-repository/saq_repository/models/core/core_models.py` (`User`, `Role`, `Policy`, `RolePolicy`, `UserRole`, `Backoffice*`, `UserLoginAttempt`, `UserPasswordReset`) e `models/otp` |
 | Cliente de provedor externo | `crypto-apps/crypto-shared-libraries/packages/crypto-b2b-client/` (`BaseAPIClient` + schemas + mappers) |
 | Receptor de webhook do provedor (HMAC + dedup por `event_id`) | `crypto-apps/crypto-api-v3/main/routes/v3/request_crypto_b2b_webhook.py` |
 | Envio com estados, débito e estorno, SQS + DLQ | `crypto-apps/crypto-api-v3/main/routes/v3/request_crypto_confirmation.py` + `crypto-apps/lambdas/lambda-aws-crypto-order-processing/` (o README explica o fluxo) |
@@ -54,7 +97,7 @@ Legenda: **A** = reaproveitar como está · **B** = copiar o padrão e adaptar �
 |---|---|---|---|
 | Gestão do onboarding e das contas | **B** | O formato das rotas de `saq-backoffice-api` (`onboarding.py`, `list_accounts_combined.py`, `close_account.py`) e a estrutura de API separada do anticipation-backoffice | As consultas, sobre o banco do México. Bloquear a conta também faz `PATCH` na `Account` Fintoc e desativa a CLABE |
 | Configuração de taxas por conta | **B** | A lógica de `CompanyTariff` (VALUE / PERCENT_WITH_MIN / PERCENT_WITH_MIN_AND_MAX, vigência), `company_tariff_calculator.py` e `tax_split_ledger.py`. A taxa é gravada em transação separada, o que já atende a RN-029 | O modelo de tarifa vive no core e tem campos BRL (`usd_to_brl_exchange_rate`, `today_brazil`, PF/PJ pelo tamanho do documento). Recriar no banco do México, com moeda e centavos. Cobrança por `Transfer` real na Fintoc |
-| Administração de usuários | **A** | Usuários, roles, `BackofficePolicy`, whitelabel e as rotas de CRUD do `saq-backoffice-api` (`backoffice_users.py`, `users_web.py`, `user_roles.py`). Login em `auth-token-api-v3`, MFA e senha em `user-api-v3`. Os dois perfis do PRD viram policies novas | Classe `_Mexico` em `saq-permissions` + linhas de policy no core. Um whitelabel México para isolar o tenant. Ver o bloqueio da seção 4 |
+| Administração de usuários | **B** | O desenho de usuário, role, policy e vínculo usuário↔conta do core; as rotas de CRUD do `saq-backoffice-api` (`backoffice_users.py`, `users_web.py`, `user_roles.py`); o login de `auth-token-api-v3` e o MFA e senha de `user-api-v3`. Tudo copiado como código, sobre o banco do México | Tabelas `mx_user`, `mx_role`, `mx_policy`, `mx_user_role` e as de backoffice; chave JWT e audiences próprias; catálogo de policies carregado de `mx_policy`. Os dois perfis do PRD (`Cliente:web`, `backoffice:admin`) viram roles com policies no banco do México. Sem whitelabel. Ver seção 6 |
 | Criação de webhooks | **B** | O motor de entrega: `apps-v3/lambdas/lambda-aws-company-notification-event` (HMAC, plano de envio, log), além do reenvio (`pix-webhook-api-v3` + `webhook-resend-runner`). O motor não depende do conteúdo do payload | Tabelas de cadastro e tipos de evento próprios (`SPEI_IN_RECEIVED`, `SPEI_OUT_*`). Os enums atuais são de Pix e `WebhooksCompany` aponta para a mirror do core. Faltam DLQ e retentativa melhor: hoje são 3 recebimentos e descarte (RN-055) |
 | Extratos consolidados e detalhados | **B** | Os padrões de `saq-backoffice-api` (`statement.py`, `daily_balances_sum.py`), o export assíncrono (`report-request-runner`) e o saldo diário (`calculate-account-balance-cron-job`) | As consultas sobre o ledger do México. Conciliação dos `Movement`s da Fintoc contra o ledger; o modelo mais próximo é `PiAccountStatementEntry` |
 
@@ -64,11 +107,11 @@ Legenda: **A** = reaproveitar como está · **B** = copiar o padrão e adaptar �
 |---|---|---|
 | `saq-base-api` | **A** | Health, CORS, envelope de erro, paginação, métricas. Só traz `en` e `pt-BR`; para `es-MX`, adicionar o locale (mudança pequena na lib) |
 | `saq-base-repository` | **A** | Sessões async com vários bancos nomeados, `SessionManager`, `BaseRepository`, lock nomeado do MySQL |
-| `saq-utilities` (AWS, HTTP, auth/JWT, exceções, tracing) | **A** | `BaseAPIClient` serve de base para o cliente Fintoc |
+| `saq-utilities` (AWS, HTTP, auth/JWT, exceções, tracing) | **A** | `BaseAPIClient` serve de base para o cliente Fintoc. O pacote `auth` valida JWT, audience, scopes e bitmap sem tocar em banco: recebe chave, catálogo e loader de roles no startup (`initialize`, `set_permission_catalog`, `set_default_get_user_roles_fn`). É o que permite isolar o login (seção 6) |
 | `saq-utilities` (helpers BR) | não usar | CPF/CNPJ, ISPB, E2E, chave Pix, "R$", UTC-3 fixo, dias úteis sem feriados do México. O México precisa de validador de CLABE (dígito próprio), RFC/CURP, MXN, America/Mexico_City |
-| `saq-permissions` | **A** | Via sessão `CORE_READ`, como o crypto faz. Adicionar `_Mexico` |
-| `saq-cache-client` | **B** | Ler user/roles/company do cache, sim. Para o saldo, copiar o padrão das Lua scripts com **prefixo de chave próprio**. As funções atuais usam `account:<id>` / `account_mirror:<id>`, e IDs do México colidiriam com os do core |
-| `saq-repository` (core) | só leitura | Usuários, company, whitelabel, policies. Nada de conta, transação ou tarifa: é tudo Brasil |
+| `saq-permissions` | não usar | Lê `core_policy` e registra o `get_user_roles` do core. No México, um módulo `mexico_permissions` em `mexico-shared-libraries` com as constantes (molde: `anticipation-backoffice-api/main/utils/scopes.py`) e o catálogo carregado de `mx_policy` no startup |
+| `saq-cache-client` | **B** | Os DTOs de usuário e roles são montados a partir dos modelos do core e as chaves (`user:`, roles por `user_id`) não têm prefixo. Copiar só `get_user_roles`/`set_user_roles` com prefixo `mx:`, ou ler do banco no login enquanto o volume for baixo. Para o saldo, copiar o padrão das Lua scripts com **prefixo de chave próprio**: as funções atuais usam `account:<id>` / `account_mirror:<id>` |
+| `saq-repository` (core) | não usar | Nenhuma tabela do core é lida. Usuário, policies e empresa ficam no banco do México; conta, transação e tarifa são Brasil |
 | `saq-ci` | **A** | `docker-kustomize-deploy.yml`, `chalice-deploy.yml`, `publish-codeartifact.yml`. Adicionar o tipo de segredo `rds_mexico` |
 | Kubernetes-manifest | **A** | Criar `mexico-apps/config-commons-mexico/` no molde de `crypto-apps/config-commons-crypto/` |
 | saq-infra | **B** | Novo RDS (ou schema), repositórios no ECR e segredos |
@@ -78,20 +121,53 @@ Legenda: **A** = reaproveitar como está · **B** = copiar o padrão e adaptar �
 
 | Repo | Veredito | Observação |
 |---|---|---|
-| `backoffice-whitelabel-frontend` (Next 15) | **B** | Hospeda um módulo `mexico/` igual ao `anticipation/`, com base URL própria e o mesmo token de login. As telas do Brasil não servem: CPF/CNPJ e Pix estão espalhados, `format-currency` é fixo em BRL e as strings estão em pt-BR fixo |
-| `portal-whitelabel-frontend` (Next 16) | **B** / C | Já é i18n (pt/en/zh); falta `es`. Extrato, saldo, webhooks e usuário servem de base, desde que moeda e locale sejam parametrizados. CLABE, SPEI OUT e cobrança são telas novas |
+| `backoffice-whitelabel-frontend` (Next 15) | B / **C** | Vira um app novo (`mexico-backoffice-frontend`) com login próprio contra o `mexico-backoffice-api`. Copiar o shell, o layout, o `use-auth` e o padrão de client HTTP do módulo `anticipation/` (`api-anticipation.ts`). As telas do Brasil não servem: CPF/CNPJ e Pix estão espalhados, `format-currency` é fixo em BRL e as strings estão em pt-BR fixo |
+| `portal-whitelabel-frontend` (Next 16) | **B** / C | App novo (`mexico-portal-frontend`) a partir dele. Já é i18n (pt/en/zh); falta `es`. Extrato, saldo, webhooks e usuário servem de base, desde que moeda e locale sejam parametrizados. CLABE, SPEI OUT e cobrança são telas novas. O login aponta para `/v3/auth/*` do `mexico-api-v3` |
 | `onboarding-whitelabel-frontend` | B / **C** | O shell e o stepper servem. Campos e validação são todos do Brasil (CPF/CNPJ, CEP, sócios) |
 | `qas-frontend-libs` | — | Vazio, sem commits |
 
 ## 5. Decisões que destravam o desenho
 
 1. **Ledger do México.** Com banco separado, o saldo e as transações não podem ir para `finance_accountbanktransaction` do core. Proposta: tabela de lançamentos própria no banco do México + saldo no Valkey com prefixo próprio. É a parte mais nova do projeto, porque nenhum produto atual tem ledger próprio.
-2. **Onde ficam usuário e conta.** No core, `UserRole` e `WebhooksCompany` têm FK para `finance_accountbankmirror`, e a permissão por conta (`has_policy_by_account_id`) depende disso. Há dois caminhos:
-   - **(i)** Criar uma mirror "fantasma" no core para cada conta mexicana. Reaproveita mais do core, mas coloca contas MXN no modelo de conta do Brasil.
-   - **(ii)** Manter usuário, login e policies no core, e o vínculo usuário↔conta, os webhooks e as tarifas no banco do México. **Recomendado:** mantém o banco separado de verdade e ainda reaproveita o login e o backoffice.
+2. **Onde ficam usuário e conta.** Decidido em 19/10/2026: o México é um produto separado, com backoffice próprio, então usuário, login, policies e o vínculo usuário↔conta ficam **todos no banco do México**. O core não é aberto. No core, `UserRole` e `WebhooksCompany` têm FK para `finance_accountbankmirror`; no México, `mx_user_role.account_id` aponta para a conta mexicana e a checagem por conta (`has_policy_by_account_id`) roda sobre ela. Detalhe na seção 6.
 3. **Valores.** O core usa `DOUBLE`. No México, guardar em centavos inteiros (ou `DECIMAL`), como a Fintoc, com coluna de moeda.
 4. **Idioma.** Espanhol ou português nas telas e nas mensagens decide se `saq-base-api` e o portal ganham `es`.
 
-## 6. Achado à parte
+## 6. Autenticação e permissões isoladas
+
+O que torna o isolamento barato: a validação em `saq-utilities.auth` não depende do banco. Ela recebe três coisas no startup e o resto é genérico:
+
+| Ponto de extensão | O que a SaQ injeta hoje | O que o México injeta |
+|---|---|---|
+| `initialize(jwt_key)` | `JWT_TOKEN_KEY` (web/API) ou `BACKOFFICE_JWT_TOKEN_KEY` | `MEXICO_JWT_TOKEN_KEY` e `MEXICO_BACKOFFICE_JWT_TOKEN_KEY`, diferentes das chaves da SaQ. A claim `eux` (user e company cifrados) deriva do mesmo segredo, então fica isolada junto |
+| `set_permission_catalog({nome: bit})` | `core_policy` ou `core_backofficepolicy` ordenadas por `id` | `mx_policy` e `mx_backoffice_policy` ordenadas por `id`. A ordem do bitmap `pm` segue o `id`, nunca reordenar |
+| `set_default_get_user_roles_fn(loader)` | `get_user_roles` do `saq-cache-client`, que lê `core_userrole` | Classe própria que implementa `UserRolesProtocol` (`get_account_ids`, `has_policy_by_account_id`, ...) lendo `mx_user_role`. `is_account_mirror` é sempre falso |
+
+Depois disso, as rotas usam `require_authenticated_audience` e `require_authenticated_audience_with_roles` exatamente como o crypto-api-v3 e o anticipation-backoffice-api.
+
+### Modelo no banco do México
+
+Copiar a forma das tabelas do core, sem whitelabel (é um tenant só):
+
+- `mx_user` (e-mail, senha, `login_type` web/api/backoffice, `is_active`, `flow_change_password`, `company_id` → cliente mexicano)
+- `mx_role` (nome, audience), `mx_policy` (nome, tipo, `allowed_audiences`), `mx_role_policy`
+- `mx_user_role` (user, company, role, `account_id` → conta mexicana, audience)
+- `mx_backoffice_role`, `mx_backoffice_policy`, `mx_backoffice_role_policy`, `mx_backoffice_user_role`
+- `mx_otp_device`, `mx_login_attempt`, `mx_password_reset`
+
+Os dois perfis do PRD (`Cliente:web`, `backoffice:admin`) são duas roles com suas policies. A matriz de permissões (PS06, em aberto) define as policies.
+
+### Serviços
+
+- **Login do cliente** em `mexico-api-v3`, rotas `/v3/auth/*`: web em dois passos (senha → token temporário → TOTP) e API por `client_id`/`client_secret`, copiados do `auth-token-api-v3`. Audiences `mx-web` e `mx-api`. Registro de MFA, troca e reset de senha copiados do `user-api-v3`. Extrair para um serviço próprio depois, se precisar, é simples porque a lógica fica em lib.
+- **Login do operador** em `mexico-backoffice-api`, com chave e catálogo próprios, copiado do `saq-backoffice-api` (`jwt_helper.py`, `backoffice_user.py`). O CRUD de usuários, roles e policies vem do mesmo repo.
+- **Cache**: no começo, ler do banco no login. Se precisar de cache, copiar `get_user_roles`/`set_user_roles` com prefixo `mx:` e invalidar direto do backoffice do México, sem a fila `SQS_UPDATE_CACHE` e a lambda `lambda-aws-update-cache-event`.
+- **Lockout e auditoria de login**: copiar `login_lockout.py` com prefixo de chave próprio no Valkey; gravar tentativas em `mx_login_attempt` direto, sem o evento `SQS_LOG_NOTIFICATION`.
+
+### O que some em relação ao desenho anterior
+
+Sessão `CORE_READ` para login, classe `_Mexico` em `saq-permissions`, whitelabel México, linhas de policy em `core_policy` e o módulo `mexico/` dentro do `backoffice-whitelabel-frontend`.
+
+## 7. Achado à parte
 
 `apps-v3/microservice-template/requirements.txt` tem um token pessoal do GitHub (PAT) gravado nas URLs `git+https`. Avisar o time para revogar.
