@@ -12,8 +12,11 @@ Levantado em 19/10/2026 a partir do código do workspace. Premissa: o México é
 
 ## 2. Estrutura proposta
 
+
+
 ```
 NOVO — repositórios do México
+
 mexico-apps/
   mexico-repository/          copiar o esqueleto do anticipation-repository (alembic, base model, publicação)
   mexico-shared-libraries/    pacotes mexico-fintoc-client (molde: crypto-b2b-client), mexico-permissions, mexico-cache (Lua scripts com prefixo mx:)
@@ -25,16 +28,19 @@ mexico-apps/
   cron-jobs/                  conciliação diária, varredura de tarifa (se for essa a opção)
 
 COMPARTILHADO — repositórios da SaQ consumidos como estão
-shared/saq-shared-libraries/
-  packages/saq-base-api/      FastAPI base: health, CORS, erro, paginação, métricas, i18n (+ locale es-MX)
-  packages/saq-base-repository/  sessões async, SessionManager, BaseRepository, lock nomeado
-  packages/saq-utilities/     só auth (JWT, bitmap, UserRolesProtocol), aws, http (BaseAPIClient), exceptions, cache, sqs, tracing
-shared/saq-ci/                workflows docker-kustomize-deploy, chalice-deploy, publish-codeartifact
-apps-v3/Kubernetes-manifest/
-  mexico-apps/                manifests do México, namespace apps-mexico, config-commons-mexico
-apps-v3/saq-infra/            RDS, ECR, filas e segredos do México declarados aqui
+
+shared/
+  saq-shared-libraries/  pacotes saq-base-api (+ locale es-MX), saq-base-repository e saq-utilities (só auth, aws, http, exceptions, cache, sqs e tracing)
+  saq-ci/                workflows docker-kustomize-deploy, chalice-deploy, publish-codeartifact
+
+apps-v3
+  Kubernetes-manifest/  pasta mexico-apps/, namespace apps-mexico, config-commons-mexico
+  saq-infra/            RDS, ECR, filas e segredos do México declarados aqui
+```
 
 MOLDE — copiados como código, nunca importados
+
+```
 apps-v3/auth-token-api-v3, user-api-v3, saq-backoffice-api        login, MFA, senha, token e CRUD de usuários
 crypto-apps/crypto-api-v3, lambda-aws-crypto-order-processing     config, wiring, webhook do provedor, envio com estados
 anticipation-apps/anticipation-backoffice-api, anticipation-repository   backoffice, scopes, auditoria, repository
