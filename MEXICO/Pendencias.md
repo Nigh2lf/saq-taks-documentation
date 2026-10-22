@@ -2,7 +2,7 @@
 
 Levantado em 18/10/2026 a partir de `OperacaoMexico.md`, do `PRD-MEXICO-V0.pdf` (rascunho, 30/09/2026) e da reunião de 24/09/2026.
 
-Situação: não existe código da frente México. O consolidado técnico está em `OperacaoMexico.md` (atualizado em 16/10/2026).
+Situação em 18/10: não existia código da frente México. **Atualização de 22/10/2026:** os cinco repositórios existem e o onboarding com abertura de conta na Fintoc já roda no sandbox local; veja `Sandbox-Onboarding.md`. O consolidado técnico está em `OperacaoMexico.md` (atualizado em 16/10/2026).
 
 ## 1. Bloqueios para começar a integrar (Caio Cesar / Fintoc)
 
