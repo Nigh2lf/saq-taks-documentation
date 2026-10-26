@@ -91,7 +91,7 @@ O padrão B é "uma conta só" do ponto de vista jurídico: um titular, um KYC, 
 | Para quê | Endpoint |
 |---|---|
 | Criar a subconta do cliente | `POST /v2/accounts` com `entity_id` da QAS (ativa na hora) |
-| Consultar ou bloquear a subconta | `GET` / `PATCH /v2/accounts/{id}` |
+| Consultar a subconta | `GET /v2/accounts/{id}`. O `PATCH` só altera a `description`; para parar o recebimento, desativar a CLABE em `PATCH /v2/account_numbers/{id}` |
 | CLABEs extras, limites de recebimento, desativar | `/v2/account_numbers` (`options.min_amount` / `options.max_amount`) |
 | Enviar SPEI | `POST /v2/transfers` (`account_id`, `amount`, `currency`, `counterparty.account_number`, `reference_id`, `comment`, `metadata`) |
 | Devolver um SPEI IN | "Return a transfer" |
@@ -138,7 +138,7 @@ No SPEI IN, o webhook traz `data.account_id`, `account_number.metadata`, `tracki
 | Tarifa = lançamento interno | Tarifa = `Transfer` real da `Account` do cliente para a `Account` da QAS |
 | Transferência interna = só ledger | `Transfer` entre as duas `Account`s |
 | Um extrato (bolsão) contra a soma das mirrors | Um extrato por cliente (`Movement`s da `Account`) contra a mirror |
-| Status da mirror | Status da mirror + `PATCH` da `Account` + desativar a CLABE |
+| Status da mirror | Status da mirror + desativar a CLABE (`PATCH /v2/account_numbers/{id}`, `status: disabled`). A `Account` não tem bloqueio por API |
 
 O ledger no Valkey continua: é ele que faz a verificação rápida de saldo, o bloqueio, os limites e a idempotência do nosso lado. A Fintoc passa a ser um segundo registro do saldo de cada cliente, conferido na conciliação.
 

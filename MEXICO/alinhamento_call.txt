@@ -1,0 +1,2635 @@
+Tabela de transação, já criar ela particionado ver se é por mês
+Não adicionar foreign key dessa tabela coloca só o id 
+
+..........
+
+Colocar tudo fila seguir tudo do saq 
+criar integration-mx... repostirório. ver o integrations-jdpi
+
+
+WEBVTT
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/10-0
+00:00:04.052 --> 00:00:07.539
+<v Rodrigo Barros>Operação e tal é,
+ele ficou um pouco com dúvida.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/10-1
+00:00:07.539 --> 00:00:12.663
+<v Rodrigo Barros>E aí eu queria trazer também o
+conhecimento dele aqui das paradas que a</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/7-0
+00:00:08.012 --> 00:00:08.172
+<v Rodrigo Lima>Okay.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/10-2
+00:00:12.663 --> 00:00:18.001
+<v Rodrigo Barros>gente fez lá no na SAC, por exemplo,
+a parte de a tabela de transações lá,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/8-0
+00:00:13.852 --> 00:00:13.932
+<v Rodrigo Lima>Uh-huh.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/9-0
+00:00:14.092 --> 00:00:14.252
+<v Rodrigo Lima>Time.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/10-3
+00:00:18.001 --> 00:00:20.492
+<v Rodrigo Barros>*****, ela ficou gigantesca na SAC.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/13-0
+00:00:20.812 --> 00:00:23.935
+<v Rodrigo Barros>E aí,
+agora tiveram que fazer um trabalho para</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/13-1
+00:00:23.935 --> 00:00:28.453
+<v Rodrigo Barros>particionar as tabelas e tal.
+Aí eu já queria que a gente começasse</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/13-2
+00:00:28.453 --> 00:00:32.107
+<v Rodrigo Barros>aqui com essa,
+com essa parada já aplicada, sabe? Que,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/13-3
+00:00:32.107 --> 00:00:36.492
+<v Rodrigo Barros>por exemplo, pô, tabela de transação, é,
+não sei se tu tá ligado.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/12-0
+00:00:32.732 --> 00:00:32.812
+<v Rodrigo Lima>Uh-huh.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/17-0
+00:00:36.572 --> 00:00:42.147
+<v Rodrigo Barros>É que lá eles vão rodar alta volumetria
+também nesse nessa parada lá doméstico.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/14-0
+00:00:40.332 --> 00:00:40.932
+<v Rodrigo Lima>Mm-hmm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/17-1
+00:00:42.147 --> 00:00:46.398
+<v Rodrigo Barros>Então a tendência é que as tabelas vão
+ficar grandes. Então,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/15-0
+00:00:43.052 --> 00:00:43.612
+<v Rodrigo Lima>Santos.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/17-2
+00:00:46.398 --> 00:00:49.604
+<v Rodrigo Barros>tipo tabela de transação,
+esse tipo de coisa,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/16-0
+00:00:46.892 --> 00:00:47.492
+<v Rodrigo Lima>Mm-hmm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/17-3
+00:00:49.604 --> 00:00:52.252
+<v Rodrigo Barros>como a gente grava isso do nosso lado?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/19-0
+00:00:52.732 --> 00:00:58.075
+<v Rodrigo Barros>O ideal já era tipo lá ser particionada.
+Tem as paradinha lá que o Barros faz</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/19-1
+00:00:58.075 --> 00:01:03.418
+<v Rodrigo Barros>também tipo de excluir chave é forem aqui.
+Ele tipo ele deixa o ID lá dentro,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/19-2
+00:01:03.418 --> 00:01:09.172
+<v Rodrigo Barros>mas ele não bota forem aqui porque quando
+faz muito update na tabela ou forem aqui.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/22-0
+00:01:09.532 --> 00:01:13.733
+<v Rodrigo Barros>da lock na tabela, enfim,
+ele faz umas paradas assim que aí seria</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/18-0
+00:01:11.332 --> 00:01:11.932
+<v Rodrigo Lima>Mm-hmm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/22-1
+00:01:13.733 --> 00:01:17.488
+<v Rodrigo Barros>uma boa a gente já começar com essa
+parada lá desse jeito,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/22-2
+00:01:17.488 --> 00:01:22.326
+<v Rodrigo Barros>para não ter esses problemas, sabe?
+Aí é uma parada, essa parada fora aqui,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/20-0
+00:01:17.532 --> 00:01:17.812
+<v Rodrigo Lima>Good.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/21-0
+00:01:20.252 --> 00:01:20.812
+<v Rodrigo Lima>Beleza.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/22-3
+00:01:22.326 --> 00:01:24.172
+<v Rodrigo Barros>outra parada, essa parada de.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/24-0
+00:01:24.412 --> 00:01:29.836
+<v Rodrigo Barros>Particionar as tabelas de transação,
+não sei se faz na de log também, Yuri,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/24-1
+00:01:29.836 --> 00:01:34.332
+<v Rodrigo Barros>ou não sei se é de log já podia jogar
+direto para outro lugar.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/23-0
+00:01:31.092 --> 00:01:31.452
+<v Rodrigo Lima>Mhm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/27-0
+00:01:34.972 --> 00:01:38.892
+<v Rodrigo Lima>Ele particiona por quanto tempo?
+É por mês?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/26-0
+00:01:38.412 --> 00:01:39.612
+<v Rodrigo Barros>Eu acho que é todo mês.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/31-0
+00:01:40.172 --> 00:01:44.795
+<v Yuri Santos>Então a da a da hoje,
+a nossa tabela que a gente tem no banco,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/28-0
+00:01:42.812 --> 00:01:42.932
+<v Rodrigo Lima>Yeah.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/31-1
+00:01:44.795 --> 00:01:49.052
+<v Yuri Santos>eles particionam por dia,
+é aquela cloudmake transaction.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/29-0
+00:01:47.612 --> 00:01:47.772
+<v Rodrigo Lima>Time.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/30-0
+00:01:49.692 --> 00:01:50.412
+<v Rodrigo Lima>Apple G.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/33-0
+00:01:50.412 --> 00:01:53.132
+<v Yuri Santos>All right, yeah, but it's gonna come up.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/32-0
+00:01:51.492 --> 00:01:52.812
+<v Rodrigo Barros>******* por dia pode</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/35-0
+00:01:52.652 --> 00:01:59.132
+<v Rodrigo Lima>All the time is all I can talk to you a
+picture of a contato.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/37-0
+00:01:54.972 --> 00:01:58.142
+<v Yuri Santos>Tem uma, não,
+mas não tem uma que tem uma nossa que é</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/37-1
+00:01:58.142 --> 00:02:01.546
+<v Yuri Santos>por por dia, Mano. Deixa eu ver aqui.
+Eu acho que é mais,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/37-2
+00:02:01.546 --> 00:02:04.012
+<v Yuri Santos>acho que a Claudia transaction ela tá mês.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/36-0
+00:02:03.212 --> 00:02:04.012
+<v Rodrigo Lima>All right, so having.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/41-0
+00:02:05.532 --> 00:02:13.249
+<v Yuri Santos>Contabilidade transaction partição é tá
+por mês, tá por mês, tá por mês,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/38-0
+00:02:05.772 --> 00:02:06.732
+<v Rodrigo Lima>Okay, all right.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/39-0
+00:02:11.772 --> 00:02:12.012
+<v Rodrigo Barros>Oh.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/40-0
+00:02:11.812 --> 00:02:13.172
+<v Rodrigo Lima>Formation, not really isn't.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/41-1
+00:02:13.249 --> 00:02:14.412
+<v Yuri Santos>tá por mês.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/42-0
+00:02:16.772 --> 00:02:17.532
+<v Rodrigo Lima>I show you ball.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/43-0
+00:02:16.892 --> 00:02:20.412
+<v Rodrigo Barros>Nossa por mês lá, Lima,
+que aí vai ser show de bola.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/44-0
+00:02:20.732 --> 00:02:21.332
+<v Rodrigo Lima>Mm-hmm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/45-0
+00:02:21.132 --> 00:02:21.372
+<v Yuri Santos>Mm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/46-0
+00:02:21.372 --> 00:02:23.052
+<v Rodrigo Barros>Essas tabelas vão ficar gigantes.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/48-0
+00:02:23.532 --> 00:02:28.465
+<v Rodrigo Lima>Eu imagino até que eles vão,
+eles vão transferir tudo que é bete pra</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/47-0
+00:02:24.892 --> 00:02:25.652
+<v Rodrigo Barros>I pradong.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/48-1
+00:02:28.465 --> 00:02:29.252
+<v Rodrigo Lima>lá não vão.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/51-0
+00:02:29.132 --> 00:02:31.691
+<v Rodrigo Barros>Pois é, a ideia, a ideia inicial era essa,
+está,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/51-1
+00:02:31.691 --> 00:02:35.452
+<v Rodrigo Barros>mas aí até aconteceu tanta coisa aí que
+eu já não sei nem mais de nada.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/49-0
+00:02:32.732 --> 00:02:32.812
+<v Rodrigo Lima>Uh-huh.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/50-0
+00:02:35.212 --> 00:02:35.332
+<v Rodrigo Lima>Yeah.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/52-0
+00:02:38.012 --> 00:02:38.652
+<v Rodrigo Lima>Complex.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/55-0
+00:02:39.132 --> 00:02:42.635
+<v Rodrigo Barros>Mas a ideia inicial era essa aí mesmo,
+ter o volume lá,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/53-0
+00:02:41.932 --> 00:02:42.252
+<v Rodrigo Lima>All right.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/55-1
+00:02:42.635 --> 00:02:47.452
+<v Rodrigo Barros>esse volumezão bolado lá operando com o
+at, o que opera esse volume absurdo.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/54-0
+00:02:47.772 --> 00:02:48.252
+<v Rodrigo Lima>JD.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/56-0
+00:02:49.612 --> 00:02:52.172
+<v Rodrigo Lima>Não, beleza. Beleza.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/57-0
+00:02:50.812 --> 00:02:55.457
+<v Rodrigo Barros>Beleza aí sobre essa parte de suporte tal,
+Yuri, é,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/57-1
+00:02:55.457 --> 00:03:00.012
+<v Rodrigo Barros>eu acho que a ideia seria trabalhar mais
+ou menos.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/58-0
+00:02:58.892 --> 00:03:02.092
+<v Rodrigo Lima>A sua mensagem de voz atingiu a duração
+máxima a Deus.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/59-0
+00:03:02.572 --> 00:03:03.052
+<v Rodrigo Barros>Apple.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/60-0
+00:03:03.692 --> 00:03:04.172
+<v Yuri Santos>Care.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/61-0
+00:03:04.892 --> 00:03:05.292
+<v Rodrigo Lima>Hold milk.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/62-0
+00:03:05.452 --> 00:03:06.252
+<v Rodrigo Barros>Do nada.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/63-0
+00:03:07.932 --> 00:03:08.052
+<v Rodrigo Lima>Yes.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/66-0
+00:03:09.852 --> 00:03:14.581
+<v Yuri Santos>Acho que é porque achou que tava aqui na
+é, tava é gravando o áudio ainda,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/64-0
+00:03:10.532 --> 00:03:10.892
+<v Rodrigo Lima>Mhm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/66-1
+00:03:14.581 --> 00:03:15.212
+<v Yuri Santos>tá ligado?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/65-0
+00:03:15.732 --> 00:03:16.012
+<v Rodrigo Lima>Got it.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/68-0
+00:03:18.172 --> 00:03:23.291
+<v Yuri Santos>que quando a gente chama o Rodrigo te
+chamou primeiro deu deu que tu tinha</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/68-1
+00:03:23.291 --> 00:03:27.932
+<v Yuri Santos>caído na caixa postal tá ligado aí aí
+agora que deve ter respondido</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/67-0
+00:03:25.132 --> 00:03:26.172
+<v Rodrigo Lima>Ah, entendi.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/69-0
+00:03:30.172 --> 00:03:32.452
+<v Rodrigo Barros>Ela achou que estava gravando mensagens
+também.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/70-0
+00:03:34.852 --> 00:03:35.292
+<v Rodrigo Lima>Right there.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/72-0
+00:03:36.492 --> 00:03:40.817
+<v Rodrigo Barros>Mas eu acho que a ideia é fazer tipo a
+estrutura do PIX, Lima,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/72-1
+00:03:40.817 --> 00:03:44.661
+<v Rodrigo Barros>botar nas filas assim,
+porque pra poder testar e depois</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/72-2
+00:03:44.661 --> 00:03:47.132
+<v Rodrigo Barros>reprocessar, fica mais fácil também.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/71-0
+00:03:47.612 --> 00:03:49.292
+<v Rodrigo Lima>Sim, sim, constant is.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/73-0
+00:03:50.892 --> 00:03:54.092
+<v Rodrigo Barros>Se eu seguir aquele mesmo modelo lá da.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/74-0
+00:03:51.252 --> 00:03:54.892
+<v Rodrigo Lima>I mean, it's all I find.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/75-0
+00:03:55.292 --> 00:03:56.492
+<v Rodrigo Barros>Lada sake.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/77-0
+00:03:57.372 --> 00:04:01.089
+<v Rodrigo Lima>Sim,
+eu estou seguindo boa parte do que está</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/77-1
+00:04:01.089 --> 00:04:04.310
+<v Rodrigo Lima>lá.
+Até questão de do onboard eu estou</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/77-2
+00:04:04.310 --> 00:04:07.532
+<v Rodrigo Lima>fazendo igual. A ideia ali que é a sim.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/76-0
+00:04:05.052 --> 00:04:06.812
+<v Rodrigo Barros>já tá deixando preparado não</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/79-0
+00:04:08.812 --> 00:04:17.224
+<v Rodrigo Barros>O que tu vai precisar fazer lá é igual
+tem na SAQ, tem aquele integration Z,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/78-0
+00:04:09.132 --> 00:04:09.932
+<v Rodrigo Lima>Tell me that, but</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/79-1
+00:04:17.224 --> 00:04:23.452
+<v Rodrigo Barros>integration JD,
+tu vai precisar fazer o integration Max.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/80-0
+00:04:23.532 --> 00:04:24.012
+<v Rodrigo Barros>Sabe?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/81-0
+00:04:24.692 --> 00:04:26.852
+<v Rodrigo Lima>This is still good.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/82-0
+00:04:27.932 --> 00:04:32.643
+<v Rodrigo Barros>Esse aí é para você botar,
+vai ter as APIs, webhook,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/82-1
+00:04:32.643 --> 00:04:37.354
+<v Rodrigo Barros>é o que acontece para tu entender,
+tu poderia fazer,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/82-2
+00:04:37.354 --> 00:04:39.932
+<v Rodrigo Barros>vou compartilhar a tela aqui.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/83-0
+00:04:40.772 --> 00:04:41.132
+<v Rodrigo Lima>top</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/84-0
+00:04:42.892 --> 00:04:48.057
+<v Rodrigo Barros>É, eu tenho esses caras aqui, por exemplo,
+integration Cell Coin, integration Z,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/84-1
+00:04:48.057 --> 00:04:51.692
+<v Rodrigo Barros>integration JD. Que que esse cara é?
+Ele é um monorrepo.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/85-0
+00:04:53.292 --> 00:04:54.812
+<v Rodrigo Barros>E aí dentro desse monorrepo</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/87-0
+00:04:55.692 --> 00:05:01.558
+<v Rodrigo Barros>Ele vai ter vários projetos, por exemplo,
+esse aqui ele tem por enquanto só esse</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/87-1
+00:05:01.558 --> 00:05:06.265
+<v Rodrigo Barros>projeto aqui de webhook,
+mas aí pode ser que ele precise de mais</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/86-0
+00:05:03.732 --> 00:05:04.092
+<v Rodrigo Lima>Mhm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/87-2
+00:05:06.265 --> 00:05:11.768
+<v Rodrigo Barros>outros projetos que ele queira toda vez
+que ele for fazer o deploy da dessa</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/87-3
+00:05:11.768 --> 00:05:15.172
+<v Rodrigo Barros>funcionalidade,
+ele queira que eles vão junto.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/88-0
+00:05:15.372 --> 00:05:19.404
+<v Rodrigo Barros>No PIX tu vai entender melhor.
+É porque esse aqui eu peguei um exemplo</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/88-1
+00:05:19.404 --> 00:05:19.972
+<v Rodrigo Barros>meio ruim.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/89-0
+00:05:21.292 --> 00:05:26.012
+<v Rodrigo Barros>Esse aqui, por exemplo, não usei.
+Ele tem vários projetos aqui.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/91-0
+00:05:26.972 --> 00:05:33.441
+<v Rodrigo Barros>que quando ele vai fazer o deploy da da
+um Z ele precisa jogar esses caras aqui</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/91-1
+00:05:33.441 --> 00:05:39.667
+<v Rodrigo Barros>então para tu não ter que ficar tipo
+subindo um monte de projeto separado tu</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/90-0
+00:05:34.332 --> 00:05:34.692
+<v Rodrigo Lima>Mhm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/91-2
+00:05:39.667 --> 00:05:42.012
+<v Rodrigo Barros>coloca todos eles juntos aqui</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/92-0
+00:05:42.412 --> 00:05:46.812
+<v Rodrigo Barros>E aí ele te dá essa.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/94-0
+00:05:48.132 --> 00:05:51.052
+<v Rodrigo Barros>Facilidade de fazer o depósito de uma vez,
+sabe?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/93-0
+00:05:51.372 --> 00:05:52.092
+<v Rodrigo Lima>Ah, entendi.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/95-0
+00:05:53.372 --> 00:05:54.332
+<v Rodrigo Lima>Santos and all.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/96-0
+00:05:56.012 --> 00:06:01.837
+<v Rodrigo Barros>Por exemplo, aqui no da JD, o teu,
+o teu acho que talvez vai ficar mais</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/96-1
+00:06:01.837 --> 00:06:05.558
+<v Rodrigo Barros>parecido com esse da JD.
+É tudo que tem aqui.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/96-2
+00:06:05.558 --> 00:06:10.412
+<v Rodrigo Barros>São as coisas que a JD usa nossa. Então,
+por exemplo, a JD.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/99-0
+00:06:10.732 --> 00:06:14.492
+<v Rodrigo Barros>Ela tem,
+a gente faz um PIX e aí eles mandam para</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/97-0
+00:06:12.292 --> 00:06:13.052
+<v Rodrigo Lima>This.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/99-1
+00:06:14.492 --> 00:06:19.003
+<v Rodrigo Barros>a gente o crédito.
+A API que recebe esse crédito está aqui,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/98-0
+00:06:16.652 --> 00:06:16.732
+<v Rodrigo Lima>Uh-huh.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/99-2
+00:06:19.003 --> 00:06:22.838
+<v Rodrigo Barros>entendeu?
+Aí tem uma parada lá que é alerta deles,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/99-3
+00:06:22.838 --> 00:06:28.252
+<v Rodrigo Barros>que todos os eventos que a gente
+configura lá de alerta chega numa API.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/101-0
+00:06:28.412 --> 00:06:32.923
+<v Rodrigo Barros>Aí isso aqui está aqui também.
+Tem API que ele gera um token lá para se</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/101-1
+00:06:32.923 --> 00:06:37.309
+<v Rodrigo Barros>conectar com a gente. Está aqui também,
+entendeu? Então, por exemplo,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/100-0
+00:06:36.172 --> 00:06:36.572
+<v Rodrigo Lima>Same.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/101-2
+00:06:37.309 --> 00:06:42.322
+<v Rodrigo Barros>para tu não precisar ir fazendo deploy de
+uma por uma, tu bota tudo junto aqui,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/101-3
+00:06:42.322 --> 00:06:45.768
+<v Rodrigo Barros>aí tu faz o deploy,
+ele já vai gerando o mesmo pacote,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/101-4
+00:06:45.768 --> 00:06:46.332
+<v Rodrigo Barros>entendeu?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/102-0
+00:06:46.732 --> 00:06:49.612
+<v Rodrigo Lima>Entendi, entendi. É, fica mais fácil, né?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/105-0
+00:06:48.092 --> 00:06:52.341
+<v Rodrigo Barros>Entendeu? Às vezes eu não tenho,
+tu vai precisar de um runner pra ficar</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/105-1
+00:06:52.341 --> 00:06:56.944
+<v Rodrigo Barros>indo lá pra pegar o status da transação.
+Aí tu vai precisar de outro webhook.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/105-2
+00:06:56.944 --> 00:06:59.600
+<v Rodrigo Barros>Aí tu já põe geral nesse pacote, que aí,
+pô,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/103-0
+00:06:59.172 --> 00:06:59.452
+<v Rodrigo Lima>Same.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/105-3
+00:06:59.600 --> 00:07:04.321
+<v Rodrigo Barros>já sabe que quando fizer o deploy desse
+cara aqui, já vai todos esses projetos,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/105-4
+00:07:04.321 --> 00:07:04.852
+<v Rodrigo Barros>entendeu?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/106-0
+00:07:05.692 --> 00:07:10.092
+<v Rodrigo Barros>Fica mais fácil para gerenciar depois.
+É bom, é bom.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/104-0
+00:07:05.852 --> 00:07:06.652
+<v Rodrigo Lima>A bouncing.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/107-0
+00:07:08.492 --> 00:07:09.212
+<v Rodrigo Lima>Manager Singh.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/108-0
+00:07:11.372 --> 00:07:14.370
+<v Rodrigo Barros>Aí, tipo,
+a parte de proxy tu vai botar na shared,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/108-1
+00:07:14.370 --> 00:07:16.252
+<v Rodrigo Barros>né? Eu acho que tu já criou, né?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/109-0
+00:07:16.292 --> 00:07:22.732
+<v Rodrigo Lima>Aqui foi muito centralizado em 2 pessoas.
+Eu já queria algumas ali.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/110-0
+00:07:19.852 --> 00:07:24.149
+<v Rodrigo Barros>Já criou essa shared que aí vai fazer API
+e aí, pô,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/110-1
+00:07:24.149 --> 00:07:27.372
+<v Rodrigo Barros>tu poderia colocar esse esse cara aqui?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/111-0
+00:07:28.492 --> 00:07:32.760
+<v Rodrigo Barros>Aí esse nome daqui, entendeu?
+Tudo lá naquele monorrepo,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/111-1
+00:07:32.760 --> 00:07:34.332
+<v Rodrigo Barros>esse API aqui também.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/112-0
+00:07:32.892 --> 00:07:35.452
+<v Rodrigo Lima>Pereira vai subir tudo, avisando, né?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/113-0
+00:07:36.012 --> 00:07:37.452
+<v Rodrigo Barros>E aí subia tudo de uma vez só.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/115-0
+00:07:37.892 --> 00:07:45.372
+<v Rodrigo Lima>beleza uma maravilha ficou bom demais
+hein não adianta</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/114-0
+00:07:42.092 --> 00:07:42.492
+<v Rodrigo Barros>Hello.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/117-0
+00:07:44.172 --> 00:07:47.967
+<v Rodrigo Barros>É isso, é isso. Assim,
+eu acho que talvez não esse daqui,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/117-1
+00:07:47.967 --> 00:07:53.004
+<v Rodrigo Barros>porque esse daqui não é da esse daqui não
+tem a ver com a integração lá, né?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/117-2
+00:07:53.004 --> 00:07:56.864
+<v Rodrigo Barros>É mais os que tiverem com a integração,
+porque imagina só,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/116-0
+00:07:53.692 --> 00:07:54.892
+<v Rodrigo Lima>Esse é por fora, né?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/117-3
+00:07:56.864 --> 00:08:00.332
+<v Rodrigo Barros>hoje em dia tu tá fazendo a integração
+com o Fintok.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/120-0
+00:08:00.652 --> 00:08:05.364
+<v Rodrigo Barros>amanhã tu vai fazer integração pô não vai
+ser mais que o fim toque vai ser com</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/120-1
+00:08:05.364 --> 00:08:09.957
+<v Rodrigo Barros>outro cara pô como é que eu vou saber
+todos os projetos que eu preciso subir</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/120-2
+00:08:09.957 --> 00:08:14.669
+<v Rodrigo Barros>para essa fim toque funcionar entendeu
+vai ficar por 50 projetos tudo separado</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/118-0
+00:08:12.012 --> 00:08:12.812
+<v Rodrigo Lima>Service thing.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/120-3
+00:08:14.669 --> 00:08:17.532
+<v Rodrigo Barros>aí ele vai bota tudo nesse integration
+entendeu</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/119-0
+00:08:18.172 --> 00:08:18.892
+<v Rodrigo Lima>Manager Manager.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/122-0
+00:08:19.612 --> 00:08:26.294
+<v Rodrigo Barros>Então os cara que tu for precisar para
+mexer lá é na integração específica,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/122-1
+00:08:26.294 --> 00:08:29.372
+<v Rodrigo Barros>aí tu joga lá naquele nesse pacote.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/121-0
+00:08:30.332 --> 00:08:30.732
+<v Rodrigo Lima>Yeah, sure.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/123-0
+00:08:32.492 --> 00:08:32.812
+<v Rodrigo Barros>Sure.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/125-0
+00:08:33.252 --> 00:08:36.341
+<v Rodrigo Lima>Você está vendo,
+está esperando depois o Bruno Cavado</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/125-1
+00:08:36.341 --> 00:08:38.572
+<v Rodrigo Lima>terminar de criar lá o ambiente da AWS.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/124-0
+00:08:36.412 --> 00:08:36.492
+<v Rodrigo Barros>Uh-huh.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/127-0
+00:08:39.292 --> 00:08:42.172
+<v Rodrigo Barros>Cara, eu acho que ele já fez.
+Eu acho que ele já fez.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/126-0
+00:08:39.652 --> 00:08:40.012
+<v Rodrigo Lima>Yeah.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/128-0
+00:08:41.372 --> 00:08:46.012
+<v Rodrigo Lima>Ele me, ele me enviou só o argo,
+ainda não tenho acesso a conta lá.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/129-0
+00:08:47.292 --> 00:08:48.972
+<v Rodrigo Barros>Qual ponto é que tu diz essa aqui?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/130-0
+00:08:50.572 --> 00:08:51.212
+<v Rodrigo Lima>Customer.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/132-0
+00:08:59.612 --> 00:09:01.212
+<v Rodrigo Barros>Quer que eu te passe já o banco?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/131-0
+00:08:59.932 --> 00:09:00.372
+<v Rodrigo Lima>It worked.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/133-0
+00:09:02.332 --> 00:09:02.972
+<v Rodrigo Lima>A point say.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/134-0
+00:09:04.972 --> 00:09:06.332
+<v Rodrigo Lima>Yeah, but there.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/135-0
+00:09:08.412 --> 00:09:11.092
+<v Rodrigo Lima>Tava só com o Lombroide do SAC.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/136-0
+00:09:13.332 --> 00:09:15.052
+<v Rodrigo Barros>Será que ele botou na?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/138-0
+00:09:15.532 --> 00:09:16.652
+<v Rodrigo Lima>Yeah.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/137-0
+00:09:15.972 --> 00:09:17.212
+<v Rodrigo Barros>Time to both of me Chen.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/139-0
+00:09:24.172 --> 00:09:30.332
+<v Rodrigo Lima>A gente se pode criou um tipo de secret,
+né? Só para acesso.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/140-0
+00:09:29.292 --> 00:09:31.292
+<v Rodrigo Barros>É, a senha deve estar aqui no single.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/141-0
+00:09:35.372 --> 00:09:36.652
+<v Rodrigo Lima>Eu consigo criar lá o.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/142-0
+00:09:37.692 --> 00:09:38.492
+<v Rodrigo Lima>Jose, Jose.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/145-0
+00:09:50.332 --> 00:09:54.572
+<v Rodrigo Barros>Deve ter um usuário aqui que tu vai
+precisar migrar, né? Fazer migrate.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/144-0
+00:09:53.652 --> 00:09:53.772
+<v Rodrigo Lima>Yeah.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/146-0
+00:09:56.972 --> 00:09:58.972
+<v Rodrigo Lima>Sing, sing, yeah.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/147-0
+00:09:58.332 --> 00:10:00.012
+<v Rodrigo Barros>Ele não botou o usuário não.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/149-0
+00:10:00.652 --> 00:10:07.475
+<v Rodrigo Lima>Eu tenho aqui só o só o eu tenho só o
+saque no Android e o saque shred no meu</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/148-0
+00:10:00.972 --> 00:10:02.572
+<v Rodrigo Barros>Time, what are the surgery mean?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/149-1
+00:10:07.475 --> 00:10:08.612
+<v Rodrigo Lima>na minha AWS.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/150-0
+00:10:08.932 --> 00:10:09.332
+<v Rodrigo Lima>In there.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/151-0
+00:10:12.612 --> 00:10:14.812
+<v Rodrigo Barros>Ah,
+então vai ter que pedir o acesso para ele.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/152-0
+00:10:15.172 --> 00:10:15.772
+<v Rodrigo Lima>Mm-hmm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/154-0
+00:10:16.932 --> 00:10:20.572
+<v Rodrigo Lima>I'll just give you a secrets done what?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/155-0
+00:10:19.412 --> 00:10:21.652
+<v Rodrigo Barros>Ele criou, mas ainda não preencheu não.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/157-0
+00:10:22.852 --> 00:10:23.732
+<v Rodrigo Barros>Ah, não, tá aqui.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/159-0
+00:10:24.572 --> 00:10:27.674
+<v Yuri Santos>Uma dúvida,
+se o projeto do México vocês já iniciaram</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/158-0
+00:10:25.772 --> 00:10:26.172
+<v Rodrigo Lima>Thank you.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/159-1
+00:10:27.674 --> 00:10:29.972
+<v Yuri Santos>alguma coisa de código dele, de serviço?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/160-0
+00:10:31.372 --> 00:10:35.612
+<v Rodrigo Lima>É o que eu vou iniciando agora ou Yuri?
+É só a questão do onboard.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/161-0
+00:10:37.332 --> 00:10:38.212
+<v Yuri Santos>Ah, tá.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/162-0
+00:10:37.452 --> 00:10:40.332
+<v Rodrigo Lima>E aí a ideia ali é avançar para minha
+conta pelo.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/163-0
+00:10:41.652 --> 00:10:42.412
+<v Rodrigo Lima>Thiago Beckoffson.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/167-0
+00:10:43.972 --> 00:10:46.722
+<v Yuri Santos>Mas aí, tipo serviço, por exemplo,
+que nem no PIX,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/164-0
+00:10:44.172 --> 00:10:45.052
+<v Rodrigo Lima>E depois.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/167-1
+00:10:46.722 --> 00:10:50.820
+<v Yuri Santos>no PIX a gente tem alguns serviços para
+poder fazer criar um pagamento, né?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/167-2
+00:10:50.820 --> 00:10:54.378
+<v Yuri Santos>Manda para o produto cashout,
+depois manda para o depois, sei lá,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/167-3
+00:10:54.378 --> 00:10:58.692
+<v Yuri Santos>manda para o para a checagem do pagamento.
+No México já tem alguma coisa assim?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/166-0
+00:11:00.092 --> 00:11:00.532
+<v Rodrigo Lima>Hello now.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/168-0
+00:11:03.292 --> 00:11:04.732
+<v Rodrigo Lima>Está começando bem do zero mesmo.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/169-0
+00:11:03.972 --> 00:11:06.534
+<v Yuri Santos>Então, no caso,
+vocês estão fazendo um onboarding</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/169-1
+00:11:06.534 --> 00:11:10.532
+<v Yuri Santos>primeiro, né? Ainda não começaram a fazer,
+criar pagamento, essas coisas, né?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/170-0
+00:11:10.732 --> 00:11:14.652
+<v Rodrigo Lima>Não, primeiro é só um board.
+A gente vai avançando com o tempo aí.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/171-0
+00:11:15.412 --> 00:11:18.012
+<v Yuri Santos>Entendi,
+e como é que funciona o onboard lá nesse</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/172-0
+00:11:17.332 --> 00:11:20.455
+<v Rodrigo Barros>E esse onboarding Lima? É,
+eu ia perguntar,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/171-1
+00:11:18.012 --> 00:11:18.532
+<v Yuri Santos>do México?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/172-1
+00:11:20.455 --> 00:11:22.372
+<v Rodrigo Barros>vai ter link de onboarding?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/173-0
+00:11:24.092 --> 00:11:27.578
+<v Rodrigo Lima>Então, pelo que eu estou vendo, sim,
+depois ver com eles lá,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/173-1
+00:11:27.578 --> 00:11:31.578
+<v Rodrigo Lima>eu estou criando uma página de onboard,
+o cara vai criar a senha ali,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/173-2
+00:11:31.578 --> 00:11:35.578
+<v Rodrigo Lima>aí vai ter a parte do backoffice,
+o cara pode aprovar ou não a conta,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/173-3
+00:11:35.578 --> 00:11:38.835
+<v Rodrigo Lima>aí se aprovar,
+ele dispara lá um lambda que cria a conta</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/173-4
+00:11:38.835 --> 00:11:39.292
+<v Rodrigo Lima>de fato.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/174-0
+00:11:39.692 --> 00:11:40.532
+<v Rodrigo Lima>Lima Francisco.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/175-0
+00:11:42.012 --> 00:11:42.172
+<v Rodrigo Lima>Okay.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/176-0
+00:11:42.372 --> 00:11:42.812
+<v Rodrigo Barros>Show.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/177-0
+00:11:46.252 --> 00:11:47.532
+<v Rodrigo Lima>O que eu entendi que tem que fazer?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/179-0
+00:11:49.372 --> 00:11:52.012
+<v Rodrigo Lima>Deve ter um portal or web,
+não sei como que vai ser.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/178-0
+00:11:49.412 --> 00:11:50.132
+<v Rodrigo Barros>Yeah, actually.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/181-0
+00:11:52.452 --> 00:11:55.902
+<v Yuri Santos>Mas aí ele também vai,
+esse onboard vai integrar na capa,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/180-0
+00:11:52.772 --> 00:11:52.852
+<v Rodrigo Barros>And.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/181-1
+00:11:55.902 --> 00:11:57.092
+<v Yuri Santos>essas paradas assim.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/182-0
+00:11:57.492 --> 00:12:00.932
+<v Rodrigo Barros>Não, os cara não tem nem documento,
+tem nem nada, pô.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/183-0
+00:12:01.892 --> 00:12:04.452
+<v Yuri Santos>Só fazer,
+só faz a abertura da conta e vida que</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/183-1
+00:12:04.452 --> 00:12:04.772
+<v Yuri Santos>segue.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/185-0
+00:12:04.932 --> 00:12:08.284
+<v Rodrigo Barros>Aham,
+só recebe assim o pedido do cara e aprova</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/184-0
+00:12:05.612 --> 00:12:06.172
+<v Rodrigo Lima>There's no.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/185-1
+00:12:08.284 --> 00:12:09.332
+<v Rodrigo Barros>não, tá ligado?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/187-0
+00:12:09.372 --> 00:12:12.332
+<v Rodrigo Lima>E vou te falar, cara, não pede nada, nada,
+nada, nada, nada.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/186-0
+00:12:10.132 --> 00:12:10.452
+<v Yuri Santos>Okay.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/189-0
+00:12:12.612 --> 00:12:17.998
+<v Rodrigo Barros>nada porque o modo lá o Yuri que eles
+pediram para operar é a seguinte vai ter</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/188-0
+00:12:13.612 --> 00:12:14.332
+<v Rodrigo Lima>Eu só queria.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/189-1
+00:12:17.998 --> 00:12:23.452
+<v Rodrigo Barros>uma conta da saque lá imagina que tem a
+conta da saque E aí por exemplo tu quer</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/189-2
+00:12:23.452 --> 00:12:28.292
+<v Rodrigo Barros>fazer um board tu vai mandar o formulário
+lá né dizendo que quer fazer</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/193-0
+00:12:28.612 --> 00:12:32.121
+<v Rodrigo Barros>E aí a gente vai criar uma ponta embaixo
+dessa conta da SAQ,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/193-1
+00:12:32.121 --> 00:12:36.494
+<v Rodrigo Barros>então não vai precisar de onboarding,
+tá ligado? E o onboarding é o da SAQ,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/190-0
+00:12:33.052 --> 00:12:33.372
+<v Rodrigo Lima>Yeah, that.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/191-0
+00:12:33.172 --> 00:12:33.532
+<v Yuri Santos>Mhm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/193-2
+00:12:36.494 --> 00:12:37.012
+<v Rodrigo Barros>entendeu?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/192-0
+00:12:37.892 --> 00:12:38.212
+<v Yuri Santos>Okay.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/194-0
+00:12:38.212 --> 00:12:41.157
+<v Rodrigo Barros>Para eles,
+não vão nem saber que o Yuri tem conta lá,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/194-1
+00:12:41.157 --> 00:12:41.812
+<v Rodrigo Barros>está ligado?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/196-0
+00:12:45.092 --> 00:12:50.132
+<v Yuri Santos>Essa é só uma subconta da conta principal,
+uhum.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/195-0
+00:12:47.892 --> 00:12:49.012
+<v Rodrigo Barros>É uma subconta.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/198-0
+00:12:49.932 --> 00:12:51.292
+<v Rodrigo Lima>Yeah, that is ma'am.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/197-0
+00:12:50.972 --> 00:12:51.092
+<v Rodrigo Barros>So.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/199-0
+00:12:52.892 --> 00:12:55.271
+<v Rodrigo Barros>Pô,
+mas o bom é que essas contas tem tem</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/199-1
+00:12:55.271 --> 00:12:55.852
+<v Rodrigo Barros>saldo, né?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/200-0
+00:12:56.252 --> 00:12:57.692
+<v Rodrigo Lima>Isso é bom, cara, isso é bom.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/202-0
+00:12:57.652 --> 00:13:00.289
+<v Rodrigo Barros>Isso é bom,
+porque lá atrás não tinha e teve que</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/202-1
+00:13:00.289 --> 00:13:03.572
+<v Rodrigo Barros>fazer aquele negócio de contabil, *****,
+é a maior confusão.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/201-0
+00:13:03.772 --> 00:13:04.492
+<v Rodrigo Lima>Moreno.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/204-0
+00:13:04.612 --> 00:13:08.713
+<v Yuri Santos>mas mas para criar uma subconta vai ser
+criado só aqui dentro da nossa estrutura</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/203-0
+00:13:04.932 --> 00:13:05.292
+<v Rodrigo Barros>Mhm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/204-1
+00:13:08.713 --> 00:13:12.612
+<v Yuri Santos>ou por exemplo a PI dos cara lá tem uma
+PI que chama para criar uma subconta</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/207-0
+00:13:14.692 --> 00:13:17.812
+<v Rodrigo Barros>Cara, tem os dois,
+tem as duas possibilidades.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/205-0
+00:13:14.812 --> 00:13:15.532
+<v Rodrigo Lima>A lot good.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/206-0
+00:13:17.852 --> 00:13:18.252
+<v Rodrigo Lima>Yeah, that.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/209-0
+00:13:19.732 --> 00:13:24.278
+<v Rodrigo Barros>Mas aí isso aí seria até um ponto bom
+para ver hein Lima se como que eles</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/208-0
+00:13:19.772 --> 00:13:20.172
+<v Rodrigo Lima>Is that?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/209-1
+00:13:24.278 --> 00:13:24.892
+<v Rodrigo Barros>querem né?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/210-0
+00:13:26.092 --> 00:13:26.972
+<v Rodrigo Lima>A criação ali.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/211-0
+00:13:26.092 --> 00:13:31.252
+<v Rodrigo Barros>Se eles querem gerenciar isso
+internamente ou querem usar de lá mesmo?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/212-0
+00:13:33.052 --> 00:13:33.692
+<v Rodrigo Lima>Entendi.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/215-0
+00:13:33.852 --> 00:13:36.904
+<v Rodrigo Barros>Entendeu? Porque assim,
+o que eles definiram,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/215-1
+00:13:36.904 --> 00:13:40.553
+<v Rodrigo Barros>o que eles querem usar essa estrutura de
+subconta, né?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/215-2
+00:13:40.553 --> 00:13:45.728
+<v Rodrigo Barros>E aí lá dá para operar direto lá com eles
+assim. Agora, como que eles querem,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/214-0
+00:13:40.652 --> 00:13:41.052
+<v Rodrigo Lima>Time.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/213-0
+00:13:40.892 --> 00:13:41.492
+<v Yuri Santos>Mm-hmm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/215-3
+00:13:45.728 --> 00:13:50.372
+<v Rodrigo Barros>se eles querem fazer interno ou não?
+Aí eu não sei porque imagina só.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/216-0
+00:13:51.332 --> 00:13:53.732
+<v Rodrigo Barros>É, por mais que vai ter.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/217-0
+00:13:54.932 --> 00:13:58.980
+<v Rodrigo Barros>A o gerenciamento lá a gente precisa ter
+esse gerenciamento aqui também,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/217-1
+00:13:58.980 --> 00:14:02.918
+<v Rodrigo Barros>que se Caio API dos caras, pô,
+a gente precisa saber quanto que o cara</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/217-2
+00:14:02.918 --> 00:14:03.972
+<v Rodrigo Barros>tinha de saldo, né?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/219-0
+00:14:04.332 --> 00:14:07.566
+<v Rodrigo Lima>Exato, exato.
+A gente tem que ter essa parte também do</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/219-1
+00:14:07.566 --> 00:14:09.212
+<v Rodrigo Lima>nosso lado, se não complica.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/218-0
+00:14:08.292 --> 00:14:09.092
+<v Rodrigo Barros>Tem que ter.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/220-0
+00:14:08.652 --> 00:14:14.878
+<v Yuri Santos>E a estrutura que vocês estão querendo
+fazer para abertura dessa subconta é</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/220-1
+00:14:14.878 --> 00:14:20.612
+<v Yuri Santos>similar a que a gente tem hoje na SAQ,
+por exemplo, vai ter uma conta</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/221-0
+00:14:19.772 --> 00:14:24.012
+<v Rodrigo Lima>Hoje no SAC é um link aberto, né?
+Consegue fazer o onboard?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/223-0
+00:14:24.532 --> 00:14:27.757
+<v Yuri Santos>Não, mas eu digo nem,
+eu não digo nem o onboard,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/223-1
+00:14:27.757 --> 00:14:31.245
+<v Yuri Santos>acho que é a parte mais fácil.
+Como vai ter onboard,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/222-0
+00:14:28.412 --> 00:14:28.492
+<v Rodrigo Lima>Uh-huh.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/223-2
+00:14:31.245 --> 00:14:36.445
+<v Yuri Santos>é tanto faz como é que vai ser feito,
+mas seria mais a estrutura de como que a</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/223-3
+00:14:36.445 --> 00:14:39.012
+<v Yuri Santos>conta vai ser criada aqui dentro, sabe?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/226-0
+00:14:42.372 --> 00:14:47.891
+<v Rodrigo Barros>É porque hoje aqui na SAQ Lima,
+a gente tem a tabela que chama Count Bank</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/224-0
+00:14:42.412 --> 00:14:43.252
+<v Yuri Santos>Report.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/226-1
+00:14:47.891 --> 00:14:51.172
+<v Rodrigo Barros>e tem a tabela que chama Count Bank
+Moreno.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/225-0
+00:14:48.652 --> 00:14:48.732
+<v Rodrigo Lima>Uh-huh.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/230-0
+00:14:52.132 --> 00:14:56.698
+<v Rodrigo Barros>E aí, por exemplo,
+antigamente eu poderia ter uma Bank para</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/230-1
+00:14:56.698 --> 00:15:01.265
+<v Rodrigo Barros>N Mirrors, ou seja,
+essa estrutura que a gente está falando</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/230-2
+00:15:01.265 --> 00:15:05.070
+<v Rodrigo Barros>aqui, ela funcionava assim desse jeito,
+entendeu?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/227-0
+00:15:01.492 --> 00:15:01.692
+<v Rodrigo Lima>So.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/230-3
+00:15:05.070 --> 00:15:11.159
+<v Rodrigo Barros>Eu tinha lá a um lá que era saque e a N
+que era geral que queria fazer parte da</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/228-0
+00:15:06.172 --> 00:15:06.292
+<v Rodrigo Lima>Yeah.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/230-4
+00:15:11.159 --> 00:15:11.692
+<v Rodrigo Barros>parada.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/232-0
+00:15:11.892 --> 00:15:16.549
+<v Rodrigo Barros>entendeu então ficava todo mundo
+pendurado nela por isso precisava desse</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/229-0
+00:15:12.732 --> 00:15:13.292
+<v Rodrigo Lima>Thank you.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/232-1
+00:15:16.549 --> 00:15:21.845
+<v Rodrigo Barros>esquema depois que a gente virou IP que a
+gente passou a registrar as contas lá no</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/232-2
+00:15:21.845 --> 00:15:27.013
+<v Rodrigo Barros>dickt no bacen a gente passou a ser um
+para um então uma bem que sempre para uma</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/231-0
+00:15:25.132 --> 00:15:25.732
+<v Rodrigo Lima>Mm-hmm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/232-3
+00:15:27.013 --> 00:15:27.332
+<v Rodrigo Barros>amigo</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/233-0
+00:15:27.732 --> 00:15:28.012
+<v Rodrigo Barros>I know.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/234-0
+00:15:28.572 --> 00:15:29.892
+<v Rodrigo Lima>Thank you.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/235-0
+00:15:29.812 --> 00:15:34.521
+<v Yuri Santos>E como é que funciona também uma beleza?
+Aí vai ter que ter estrutura de contas</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/235-1
+00:15:34.521 --> 00:15:38.230
+<v Yuri Santos>aqui dentro. Beleza,
+então o novo cliente do que vai entrar lá</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/235-2
+00:15:38.230 --> 00:15:42.115
+<v Yuri Santos>do México vai ter uma subconta aqui
+dentro da gente. Por exemplo,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/235-3
+00:15:42.115 --> 00:15:46.825
+<v Yuri Santos>se for seguir o mesmo exemplo da SAQ,
+vai ter uma tabela de account bank dentro</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/235-4
+00:15:46.825 --> 00:15:48.532
+<v Yuri Santos>dessa tabela de account bank.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/238-0
+00:15:49.332 --> 00:15:54.603
+<v Yuri Santos>Vai dentro dessa tabela de account bank,
+vai ter pelo é de account de account,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/238-1
+00:15:54.603 --> 00:15:59.408
+<v Yuri Santos>vai ter várias contas dos clientes lá,
+aí cada conta vai ter seu saldo,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/236-0
+00:15:58.692 --> 00:15:59.052
+<v Rodrigo Lima>All right.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/238-2
+00:15:59.408 --> 00:16:03.812
+<v Yuri Santos>vai ter uma estrutura lá no cash para
+guardar o saldo do cara, é.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/237-0
+00:16:03.412 --> 00:16:03.732
+<v Rodrigo Lima>Same.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/239-0
+00:16:05.092 --> 00:16:07.572
+<v Yuri Santos>E ele vai ter usuário e senha para
+conseguir operar.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/240-0
+00:16:08.612 --> 00:16:12.111
+<v Yuri Santos>É e tipo,
+vamos supor que a gente vai mandar um</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/240-1
+00:16:12.111 --> 00:16:15.902
+<v Yuri Santos>dinheiro para fora.
+Como é que como é que é feita a</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/240-2
+00:16:15.902 --> 00:16:20.494
+<v Yuri Santos>transferência no México?
+É por agência e conta ou tem um IE de</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/241-0
+00:16:19.492 --> 00:16:23.892
+<v Rodrigo Lima>Então esse ponto eu também não sei ainda
+quando é que enviaria para fora.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/240-3
+00:16:20.494 --> 00:16:20.932
+<v Yuri Santos>conta?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/244-0
+00:16:25.892 --> 00:16:30.649
+<v Yuri Santos>Tá internamente,
+mas vocês precisam saber se tem uma chave</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/242-0
+00:16:26.732 --> 00:16:27.812
+<v Rodrigo Lima>Depois, your positive.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/244-1
+00:16:30.649 --> 00:16:36.212
+<v Yuri Santos>PIX no México, se tem um ID de conta,
+um dígito verificador, sei lá.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/248-0
+00:16:33.132 --> 00:16:38.065
+<v Rodrigo Barros>É, não tem, pô. Lá eles tem a conta tipo,
+tu vai,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/243-0
+00:16:34.692 --> 00:16:35.892
+<v Rodrigo Lima>É, lá tem um spray, né?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/245-0
+00:16:37.812 --> 00:16:38.852
+<v Rodrigo Lima>Lá tem o espelho, né?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/248-1
+00:16:38.065 --> 00:16:46.255
+<v Rodrigo Barros>tu abre a conta aí tem esse SPI SP out né
+que eu queria estar falando aí dentro da</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/246-0
+00:16:43.612 --> 00:16:43.972
+<v Yuri Santos>Sim.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/248-2
+00:16:46.255 --> 00:16:50.892
+<v Rodrigo Barros>conta é uma conta de recebimento de
+pagamento.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/249-0
+00:16:51.132 --> 00:16:57.038
+<v Rodrigo Barros>E aí ela pode mover tanto in quanto out.
+E aí o que a gente precisa decidir é tipo,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/247-0
+00:16:51.252 --> 00:16:51.652
+<v Yuri Santos>Mhm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/249-1
+00:16:57.038 --> 00:17:02.593
+<v Rodrigo Barros>a gente vai ter essa estrutura aqui
+dentro, replicada aqui dentro, tipo assim,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/249-2
+00:17:02.593 --> 00:17:06.812
+<v Rodrigo Barros>vai ter a principal aqui,
+no caso que vai ser uma só, tipo.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/250-0
+00:17:06.972 --> 00:17:11.792
+<v Rodrigo Barros>Imagina só Yuri que teria uma única Bank
+e aí todo mundo que entrasse entraria</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/250-1
+00:17:11.792 --> 00:17:14.172
+<v Rodrigo Barros>como um mirror, entendeu? Embaixo dela.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/251-0
+00:17:15.292 --> 00:17:21.328
+<v Rodrigo Barros>Ou então se a gente vai criar só bank
+aqui e aí abstrair essa principal que tem</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/251-1
+00:17:21.328 --> 00:17:27.213
+<v Rodrigo Barros>e usar todo mundo com como se fosse uma
+bank mesmo. Só que aí vem uma parada,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/251-2
+00:17:27.213 --> 00:17:31.212
+<v Rodrigo Barros>eles vão querer ter o saldo dessa outra
+aqui dentro.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/253-0
+00:17:31.692 --> 00:17:36.812
+<v Rodrigo Barros>Peça principal também, acho que é bom, né?
+Vai ser como se fosse tipo uma tapinha.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/252-0
+00:17:34.532 --> 00:17:35.572
+<v Yuri Santos>Me turned.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/254-0
+00:17:36.932 --> 00:17:39.538
+<v Yuri Santos>Então,
+mas minha dúvida era não era nem essa, pô.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/254-1
+00:17:39.538 --> 00:17:43.498
+<v Yuri Santos>Minha dúvida era porque hoje a gente tem
+trazendo para o nosso lado do PIX.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/254-2
+00:17:43.498 --> 00:17:46.052
+<v Yuri Santos>Hoje a gente tem uma tabela de chave PIX,
+não é?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/255-0
+00:17:47.492 --> 00:17:52.554
+<v Yuri Santos>Quando alguém vai mandar um dinheiro pra
+dentro da nossa conta lá do México,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/255-1
+00:17:52.554 --> 00:17:55.972
+<v Yuri Santos>vem como se essa PI,
+essa entrada de valor do cara?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/256-0
+00:17:57.332 --> 00:17:58.052
+<v Yuri Santos>Crédito.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/260-0
+00:17:57.372 --> 00:18:00.281
+<v Rodrigo Barros>Então eu imagino que é tipo uma chave PIX
+também.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/260-1
+00:18:00.281 --> 00:18:04.936
+<v Rodrigo Barros>E aí só que aí ao invés dele receber na
+conta do Yuri, vai ser na conta da SAQ,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/257-0
+00:18:01.412 --> 00:18:01.532
+<v Yuri Santos>Yeah.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/260-2
+00:18:04.936 --> 00:18:08.892
+<v Rodrigo Barros>igual era lá atrás na nossa,
+eu lembro que recebia todo mundo com o</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/258-0
+00:18:07.012 --> 00:18:07.332
+<v Yuri Santos>Yeah.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/260-3
+00:18:08.892 --> 00:18:09.532
+<v Rodrigo Barros>mesmo nome.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/259-0
+00:18:10.332 --> 00:18:10.692
+<v Yuri Santos>Mhm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/261-0
+00:18:12.532 --> 00:18:15.087
+<v Yuri Santos>Mas aí,
+como é que a gente vai pegar pra gente</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/261-1
+00:18:15.087 --> 00:18:19.598
+<v Yuri Santos>saber que é da de uma de uma conta e uma
+das subcontas para acreditar o valor aqui</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/261-2
+00:18:19.598 --> 00:18:23.892
+<v Yuri Santos>dentro dela na nossa na nossa estrutura?
+Vem o webhook, com o número da conta.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/262-0
+00:18:22.092 --> 00:18:25.162
+<v Rodrigo Barros>Porque quando tu gera o QR Code,
+tu gera o Cashin,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/262-1
+00:18:25.162 --> 00:18:28.172
+<v Rodrigo Barros>o cara tá mandando o Cashin pra aquela
+conta, pô.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/265-0
+00:18:29.772 --> 00:18:34.151
+<v Rodrigo Barros>contando 234 lá, entendeu?
+Por mais que ela seja da saque,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/264-0
+00:18:32.292 --> 00:18:33.132
+<v Rodrigo Lima>Yeah, I'm dealing.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/263-0
+00:18:32.372 --> 00:18:32.612
+<v Yuri Santos>Mm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/265-1
+00:18:34.151 --> 00:18:35.932
+<v Rodrigo Barros>ela é do Yuri, entendeu?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/266-0
+00:18:36.772 --> 00:18:39.652
+<v Yuri Santos>Entendi, aí ele manda o webhook pra gente,
+né?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/267-0
+00:18:41.852 --> 00:18:43.372
+<v Rodrigo Barros>Eles mandam o appbook, cara.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/268-0
+00:18:43.892 --> 00:18:44.692
+<v Yuri Santos>Thank you.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/269-0
+00:18:44.652 --> 00:18:48.732
+<v Rodrigo Barros>Mas dá para dar aquele guetezão lá também,
+não é? Fazer o nome bonito lá.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/270-0
+00:18:49.212 --> 00:18:56.093
+<v Yuri Santos>Sim, aí, aí, beleza.
+Aí a gente então aqui vai ter uma tabela</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/270-1
+00:18:56.093 --> 00:18:57.092
+<v Yuri Santos>de conta.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/271-0
+00:18:58.292 --> 00:19:01.024
+<v Yuri Santos>Quando a gente vai dentro dessa tabela de
+conta,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/271-1
+00:19:01.024 --> 00:19:05.652
+<v Yuri Santos>aí a gente vai ter o número da conta, é,
+e fica um pouco referente a conta, não é?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/272-0
+00:19:06.612 --> 00:19:11.972
+<v Yuri Santos>É a gente a gente vai estudar,
+provavelmente as tabelas que a gente tem</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/272-1
+00:19:11.972 --> 00:19:18.077
+<v Yuri Santos>hoje na SAC não vai ter aquela trabalha
+de de de Company e algumas outras tabelas</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/272-2
+00:19:18.077 --> 00:19:19.492
+<v Yuri Santos>que existem na SAC.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/273-0
+00:19:21.412 --> 00:19:25.450
+<v Yuri Santos>É a mirror, ela vai ter a tabela,
+a coluna de saldo que nem hoje tem hoje,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/273-1
+00:19:25.450 --> 00:19:28.681
+<v Yuri Santos>o saldo a gente que vai controlar,
+vai ter um saldo global,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/273-2
+00:19:28.681 --> 00:19:32.612
+<v Yuri Santos>só que cada conta individualmente a gente
+vai a gente que vai controlar.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/275-0
+00:19:35.732 --> 00:19:43.673
+<v Yuri Santos>então nenhuma então tem 1000000 na conta
+mas mas tem 5 mirror com com sei lá</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/274-0
+00:19:36.092 --> 00:19:36.412
+<v Rodrigo Lima>Yeah.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/275-1
+00:19:43.673 --> 00:19:44.292
+<v Yuri Santos>250000</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/276-0
+00:19:45.852 --> 00:19:49.062
+<v Yuri Santos>Que formam um milhão de saldo,
+que é o geral, o global, né?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/276-1
+00:19:49.062 --> 00:19:50.292
+<v Yuri Santos>Seria basicamente isso.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/277-0
+00:19:51.292 --> 00:19:51.932
+<v Rodrigo Lima>Eu creio que sim.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/279-0
+00:19:53.372 --> 00:19:54.092
+<v Rodrigo Lima>Say this message.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/278-0
+00:19:53.772 --> 00:19:53.932
+<v Yuri Santos>Okay.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/280-0
+00:19:56.132 --> 00:19:57.332
+<v Yuri Santos>Thank you. Thank you.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/281-0
+00:20:02.692 --> 00:20:03.492
+<v Yuri Santos>Entendi.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/282-0
+00:20:04.452 --> 00:20:05.172
+<v Yuri Santos>Entendi.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/283-0
+00:20:07.172 --> 00:20:07.332
+<v Yuri Santos>Good.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/284-0
+00:20:14.932 --> 00:20:15.172
+<v Yuri Santos>Mm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/286-0
+00:20:15.212 --> 00:20:15.852
+<v Rodrigo Lima>Vários bancos.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/287-0
+00:20:17.012 --> 00:20:18.212
+<v Rodrigo Lima>Várias EPIs no caso.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/285-0
+00:20:17.412 --> 00:20:17.572
+<v Yuri Santos>Yes.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/290-0
+00:20:19.252 --> 00:20:22.961
+<v Yuri Santos>Aqui provavelmente vão querer,
+não sei como é que é a estrutura lá no</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/289-0
+00:20:22.532 --> 00:20:23.252
+<v Rodrigo Barros>Almost thing.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/290-1
+00:20:22.961 --> 00:20:23.332
+<v Yuri Santos>México.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/291-0
+00:20:25.092 --> 00:20:27.448
+<v Rodrigo Lima>Por exemplo, assim,
+a moto tem que botar a cartway,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/291-1
+00:20:27.448 --> 00:20:28.852
+<v Rodrigo Lima>aí vai ter um banco só pra ela.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/295-0
+00:20:30.692 --> 00:20:34.346
+<v Rodrigo Barros>É, porque imagina só,
+hoje em dia tem um cara aí que vai usar</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/295-1
+00:20:34.346 --> 00:20:38.176
+<v Rodrigo Barros>isso daí. Aí amanhã ou depois,
+pode ser que o cara chegue assim,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/292-0
+00:20:35.572 --> 00:20:35.652
+<v Rodrigo Lima>Uh-huh.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/295-2
+00:20:38.176 --> 00:20:42.537
+<v Rodrigo Barros>que chegue outro cliente e fale, pô,
+eu quero ter essa mesma operação aí.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/295-3
+00:20:42.537 --> 00:20:46.899
+<v Rodrigo Barros>E aí a gente vai ter que replicar a
+estrutura toda igual a gente faz aqui</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/293-0
+00:20:43.372 --> 00:20:43.972
+<v Rodrigo Lima>Mm-hmm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/294-0
+00:20:46.772 --> 00:20:48.772
+<v Yuri Santos>Tem que subir outra contato WS.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/295-4
+00:20:46.899 --> 00:20:48.372
+<v Rodrigo Barros>para esse Face, entendeu?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/298-0
+00:20:48.772 --> 00:20:52.485
+<v Rodrigo Lima>Ah, tá, beleza,
+então esse é outro book separado, enfim,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/297-0
+00:20:51.492 --> 00:20:53.092
+<v Rodrigo Barros>Vai ser tudo separado, é?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/296-0
+00:20:52.012 --> 00:20:52.292
+<v Yuri Santos>Yeah.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/298-1
+00:20:52.485 --> 00:20:53.332
+<v Rodrigo Lima>beleza. Aham.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/302-0
+00:20:54.852 --> 00:20:59.017
+<v Rodrigo Barros>Igual a gente faz com PIX,
+a gente cria uma outra conta,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/302-1
+00:20:59.017 --> 00:21:03.474
+<v Rodrigo Barros>faz o deploy lá, entendeu?
+Replica o ambiente via Bernet lá,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/300-0
+00:20:59.492 --> 00:20:59.652
+<v Rodrigo Lima>Okay.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/301-0
+00:21:01.372 --> 00:21:02.052
+<v Rodrigo Lima>Time do I.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/302-2
+00:21:03.474 --> 00:21:04.132
+<v Rodrigo Barros>entendeu?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/303-0
+00:21:04.452 --> 00:21:08.452
+<v Rodrigo Lima>Mm-hmm, entendi. I put that.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/304-0
+00:21:09.972 --> 00:21:11.332
+<v Rodrigo Barros>Aí já fica no esquema.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/305-0
+00:21:13.332 --> 00:21:14.292
+<v Rodrigo Lima>Isso é bom, isso é bom.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/306-0
+00:21:16.052 --> 00:21:18.772
+<v Rodrigo Lima>Aqui vai ter a conta principal e várias
+contas secundárias.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/309-0
+00:21:20.612 --> 00:21:23.884
+<v Rodrigo Barros>É, então eu acho que é isso, né?
+O esquema é esse.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/307-0
+00:21:23.572 --> 00:21:23.652
+<v Rodrigo Lima>Uh-huh.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/309-1
+00:21:23.884 --> 00:21:27.092
+<v Rodrigo Barros>Talvez já seja melhor trazer tudo pro
+nosso lado.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/308-0
+00:21:24.852 --> 00:21:24.932
+<v Yuri Santos>Oh.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/310-0
+00:21:28.292 --> 00:21:32.852
+<v Rodrigo Barros>E aí amanhã ou depois se mudar de fim
+toque, mudar para não sei aonde, eu tenho.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/311-0
+00:21:34.052 --> 00:21:34.452
+<v Rodrigo Barros>Stay long.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/312-0
+00:21:35.252 --> 00:21:35.732
+<v Yuri Santos>Um.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/313-0
+00:21:35.412 --> 00:21:36.932
+<v Rodrigo Lima>Pode ser que a outra não tenha, né?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/314-0
+00:21:37.892 --> 00:21:38.012
+<v Rodrigo Barros>Yeah.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/316-0
+00:21:37.892 --> 00:21:39.972
+<v Rodrigo Lima>A outra não tem essa consulta de saldo,
+né?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/315-0
+00:21:38.852 --> 00:21:39.212
+<v Yuri Santos>Looks.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/317-0
+00:21:40.852 --> 00:21:43.172
+<v Rodrigo Barros>É, eu não sei.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/318-0
+00:21:40.852 --> 00:21:43.732
+<v Yuri Santos>Provavelmente,
+provavelmente seu lance de conta</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/318-1
+00:21:43.732 --> 00:21:46.852
+<v Yuri Santos>principal não vai ter.
+Nós só vai ter as subcontas.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/323-0
+00:21:48.532 --> 00:21:53.243
+<v Yuri Santos>A conta principal só vai ter acesso lá no,
+sei lá, no backoffice desse,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/319-0
+00:21:48.692 --> 00:21:48.932
+<v Rodrigo Barros>Yeah.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/320-0
+00:21:48.692 --> 00:21:49.332
+<v Rodrigo Lima>Hat by Hat.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/323-1
+00:21:53.243 --> 00:21:56.580
+<v Yuri Santos>desse cara do México lá,
+desse banco do México lá,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/321-0
+00:21:53.892 --> 00:21:54.292
+<v Rodrigo Lima>Yeah, that.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/323-2
+00:21:56.580 --> 00:22:00.572
+<v Yuri Santos>que é igual a nossa NZ,
+ou fiducia e fiduci planner, sei lá.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/322-0
+00:21:57.572 --> 00:21:58.532
+<v Rodrigo Barros>Yeah, let me see.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/324-0
+00:22:01.652 --> 00:22:05.892
+<v Yuri Santos>Aqui do nosso lado só vai saber das
+estruturas das contas.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/325-0
+00:22:06.532 --> 00:22:06.852
+<v Rodrigo Lima>Is that?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/326-0
+00:22:09.412 --> 00:22:09.892
+<v Yuri Santos>Thank you.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/327-0
+00:22:09.412 --> 00:22:12.972
+<v Rodrigo Lima>A principal vai ser na hora que você
+criar a conta lá na Tóquio.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/329-0
+00:22:14.132 --> 00:22:17.308
+<v Yuri Santos>É, vai ter uma conta.
+É sim toque o nome do banco lá da</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/328-0
+00:22:16.532 --> 00:22:17.412
+<v Rodrigo Lima>A thin toque.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/329-1
+00:22:17.308 --> 00:22:18.612
+<v Yuri Santos>instituição? Sim toque.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/330-0
+00:22:18.932 --> 00:22:19.332
+<v Rodrigo Lima>Yes.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/331-0
+00:22:19.892 --> 00:22:20.692
+<v Yuri Santos>Pin toque.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/332-0
+00:22:22.772 --> 00:22:26.289
+<v Yuri Santos>Entendi. E quando, por exemplo,
+quando a gente vai fazer uma abertura de</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/332-1
+00:22:26.289 --> 00:22:27.012
+<v Yuri Santos>uma nova conta,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/334-0
+00:22:30.292 --> 00:22:33.172
+<v Yuri Santos>Quando a gente vai fazer a abertura de
+uma nova conta,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/334-1
+00:22:33.172 --> 00:22:36.000
+<v Yuri Santos>a gente não manda nenhuma notificação
+para o cara lá,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/334-2
+00:22:36.000 --> 00:22:39.875
+<v Yuri Santos>porque todo valor sai a partir da conta
+bolsão, entre aspas assim. Então,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/334-3
+00:22:39.875 --> 00:22:43.332
+<v Yuri Santos>quando tu clica no botão para criar uma
+nova conta, ninguém sabe.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/333-0
+00:22:40.772 --> 00:22:42.692
+<v Rodrigo Barros>Yeah, avos so.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/335-0
+00:22:44.452 --> 00:22:48.032
+<v Rodrigo Barros>A bolsão é a que manda, por exemplo,
+vai aparecer o CNPJ, sei lá,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/335-1
+00:22:48.032 --> 00:22:52.372
+<v Rodrigo Barros>o documento do cara do principal lá,
+porque porém ele não entendeu o documento.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/336-0
+00:22:53.492 --> 00:22:53.732
+<v Yuri Santos>Mm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/337-0
+00:22:54.932 --> 00:22:58.380
+<v Yuri Santos>E aí, tipo,
+então não vai ser que nem na nossa</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/337-1
+00:22:58.380 --> 00:23:01.828
+<v Yuri Santos>estrutura do PI do PIX aqui,
+quando vai fazer,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/337-2
+00:23:01.828 --> 00:23:07.917
+<v Yuri Santos>quando vai fazer uma transferência para
+fora, não aparece o CNPJ do nosso cliente,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/337-3
+00:23:07.917 --> 00:23:10.852
+<v Yuri Santos>vai aparecer o CNPJ da SAQ, por exemplo.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/338-0
+00:23:11.012 --> 00:23:11.892
+<v Yuri Santos>Lá na fintok.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/339-0
+00:23:15.252 --> 00:23:15.732
+<v Yuri Santos>Yes, I.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/340-0
+00:23:15.252 --> 00:23:18.452
+<v Rodrigo Lima>Eu acho que é isso mesmo,
+que a conta principal é uma só.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/341-0
+00:23:19.252 --> 00:23:19.572
+<v Yuri Santos>Yeah.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/342-0
+00:23:21.572 --> 00:23:23.812
+<v Yuri Santos>aqui dentro que a gente vai fazer essa
+segregação</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/343-0
+00:23:24.332 --> 00:23:24.932
+<v Rodrigo Lima>Mm-hmm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/344-0
+00:23:26.692 --> 00:23:31.892
+<v Rodrigo Barros>Só tem que ver também, Lima, porque,
+por exemplo, como vai envolver transação?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/345-0
+00:23:34.492 --> 00:23:39.222
+<v Rodrigo Barros>Acabei de pensar numa parada,
+como vai envolver transações com taxa a</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/345-1
+00:23:39.222 --> 00:23:42.601
+<v Rodrigo Barros>nossa,
+o nosso saldo nunca vai bater com o de lá,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/345-2
+00:23:42.601 --> 00:23:43.412
+<v Rodrigo Barros>está ligado?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/347-0
+00:23:45.892 --> 00:23:53.389
+<v Rodrigo Barros>porque a gente sempre vai transferir para
+a conta de tarifa imagina só o cara foi</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/347-1
+00:23:53.389 --> 00:24:00.978
+<v Rodrigo Barros>fez um PIX PIX de um real recebeu um real
+ele vai receber na conta dele um real só</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/346-0
+00:24:00.292 --> 00:24:00.892
+<v Rodrigo Lima>Mm-hmm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/347-2
+00:24:00.978 --> 00:24:01.252
+<v Rodrigo Barros>que</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/348-0
+00:24:02.092 --> 00:24:05.532
+<v Rodrigo Barros>Desse 1 real vai cair, sei lá,
+10 centavos para a conta da SAQ.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/349-0
+00:24:06.492 --> 00:24:06.772
+<v Rodrigo Lima>Sing.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/351-0
+00:24:07.732 --> 00:24:11.572
+<v Rodrigo Lima>Mas essa daí é a conta da saque,
+vai ser uma subconta dela mesmo.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/350-0
+00:24:07.972 --> 00:24:08.052
+<v Rodrigo Barros>Oh.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/352-0
+00:24:12.532 --> 00:24:12.932
+<v Rodrigo Lima>Ou não?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/353-0
+00:24:13.412 --> 00:24:16.292
+<v Rodrigo Barros>Aí eu não sei se vai ter uma subconta de
+tarifa.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/354-0
+00:24:16.852 --> 00:24:19.092
+<v Yuri Santos>eu acho que não acho que tudo vai ficar
+dentro da bolsão</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/355-0
+00:24:21.012 --> 00:24:24.184
+<v Yuri Santos>Vai tudo só vai ter vai ser um saldo só.
+Na verdade,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/355-1
+00:24:24.184 --> 00:24:28.612
+<v Yuri Santos>cada conta vai ter um saldo fake.
+Quando vai acreditar um saldo na conta?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/356-0
+00:24:27.092 --> 00:24:31.238
+<v Rodrigo Lima>Mas então,
+eu acho que na fintok a subconta tem um</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/356-1
+00:24:31.238 --> 00:24:32.132
+<v Rodrigo Lima>saldo dela.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/357-0
+00:24:33.092 --> 00:24:35.555
+<v Yuri Santos>Ah,
+então quando tu faz a chamada na PI dele</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/357-1
+00:24:35.555 --> 00:24:38.785
+<v Yuri Santos>de criar subconta,
+gera uma subconta dentro da conta lá na</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/359-0
+00:24:38.452 --> 00:24:42.292
+<v Rodrigo Lima>Exato, exato.
+E aí tu consegue até consertar esse saldo.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/357-2
+00:24:38.785 --> 00:24:39.332
+<v Yuri Santos>estrutura.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/358-0
+00:24:40.692 --> 00:24:41.012
+<v Yuri Santos>Thank you.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/360-0
+00:24:42.772 --> 00:24:48.226
+<v Yuri Santos>Então vai ter uma,
+então vai ter uma subconta da SAQ pra pra</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/361-0
+00:24:46.932 --> 00:24:49.772
+<v Rodrigo Lima>É, foi o que eu pensei,
+mas se me conta só pra tarifa.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/360-1
+00:24:48.226 --> 00:24:48.852
+<v Yuri Santos>tarifa.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/364-0
+00:24:50.132 --> 00:24:53.696
+<v Yuri Santos>É que nem a gente faz aqui agora Obrigado
+É, sim, galera,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/364-1
+00:24:53.696 --> 00:24:58.181
+<v Yuri Santos>eu vou ter que entrar na motacall aqui
+Mas qualquer coisa eu volto aqui,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/364-2
+00:24:58.181 --> 00:25:02.052
+<v Yuri Santos>só finalizando aquela coisa eu volto aqui,
+beleza? Desculpa aí</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/363-0
+00:25:02.532 --> 00:25:02.932
+<v Rodrigo Lima>No, it don't.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/362-0
+00:25:02.692 --> 00:25:03.092
+<v Rodrigo Barros>Time just.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/366-0
+00:25:04.452 --> 00:25:06.052
+<v Rodrigo Lima>Está claro aqui, show de bola.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/365-0
+00:25:04.532 --> 00:25:04.932
+<v Yuri Santos>Nice.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/367-0
+00:25:06.212 --> 00:25:07.732
+<v Rodrigo Barros>Tá de boa, né? Não, beleza.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/368-0
+00:25:07.732 --> 00:25:08.212
+<v Rodrigo Lima>Sim.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/372-0
+00:25:08.772 --> 00:25:11.580
+<v Yuri Santos>Tá de boa o *******,
+isso daí tá difícil pra *******,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/372-1
+00:25:11.580 --> 00:25:14.388
+<v Yuri Santos>estão mentindo,
+vocês estão mentindo pra vocês mesmo,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/372-2
+00:25:14.388 --> 00:25:18.444
+<v Yuri Santos>que tem muita coisa que ninguém sabe o
+que vai fazer. Não, não tá de boa não,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/369-0
+00:25:14.532 --> 00:25:16.532
+<v Rodrigo Lima>So, you were El Pass.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/371-0
+00:25:15.052 --> 00:25:17.572
+<v Rodrigo Barros>Ué, não tem, não tem o que fazer, Yuri.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/370-0
+00:25:17.892 --> 00:25:19.012
+<v Rodrigo Lima>É um passo por vez.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/372-3
+00:25:18.444 --> 00:25:21.096
+<v Yuri Santos>é difícil pra ******* que vai acontecer
+aí, velho.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/372-4
+00:25:21.096 --> 00:25:24.268
+<v Yuri Santos>Tem muita coisa que ninguém sabe pra o
+que eu tô vendo aqui,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/372-5
+00:25:24.268 --> 00:25:26.972
+<v Yuri Santos>que ninguém não estudou e não sabe
+responder ainda.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/373-0
+00:25:27.252 --> 00:25:28.372
+<v Rodrigo Barros>Ninguém sabe, né?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/375-0
+00:25:27.252 --> 00:25:31.300
+<v Yuri Santos>Tá ligado? Não tá de boa não.
+Vocês estão mentindo por vocês mesmo,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/374-0
+00:25:28.452 --> 00:25:31.892
+<v Rodrigo Lima>É um passo pro Yuri.
+É um passo pro verde Yuri.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/375-1
+00:25:31.300 --> 00:25:34.932
+<v Yuri Santos>velho. É, eu passo por vezes,
+concordo com vocês, tá ligado?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/376-0
+00:25:34.532 --> 00:25:36.372
+<v Rodrigo Barros>O negócio não tem nem prazo, pô.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/379-0
+00:25:37.092 --> 00:25:40.433
+<v Yuri Santos>É, então tá bom, se não tem prazo, tá bom.
+Daqui a pouco o Jose não volta,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/377-0
+00:25:37.132 --> 00:25:37.652
+<v Rodrigo Lima>Right there.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/379-1
+00:25:40.433 --> 00:25:41.012
+<v Yuri Santos>aí tá pronto.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/378-0
+00:25:41.532 --> 00:25:42.452
+<v Rodrigo Lima>Vou te falar.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/381-0
+00:25:41.972 --> 00:25:45.052
+<v Rodrigo Barros>E aí, é pra sexta-feira isso daí, galera?
+Vendi isso daí já, hein?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/380-0
+00:25:44.212 --> 00:25:44.932
+<v Yuri Santos>Sexta-feira.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/382-0
+00:25:45.972 --> 00:25:47.092
+<v Rodrigo Lima>Pra mim, bem prazo sim.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/383-0
+00:25:46.532 --> 00:25:47.012
+<v Yuri Santos>Portal.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/384-0
+00:25:48.532 --> 00:25:48.652
+<v Yuri Santos>It's.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/385-0
+00:25:49.492 --> 00:25:50.172
+<v Rodrigo Barros>É isso.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/386-0
+00:25:49.972 --> 00:25:52.532
+<v Rodrigo Lima>Falcão pediu em 15 dias pra mim</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/388-0
+00:25:52.132 --> 00:25:54.052
+<v Yuri Santos>Aí *****, tá machucado.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/387-0
+00:25:52.972 --> 00:25:53.132
+<v Rodrigo Barros>Bank.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/389-0
+00:25:53.812 --> 00:25:55.172
+<v Rodrigo Lima>Essa é a correria ******.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/390-0
+00:25:55.532 --> 00:25:57.633
+<v Yuri Santos>Vai fazer,
+vai fazer em 15 dias que a gente tá</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/390-1
+00:25:57.633 --> 00:25:59.332
+<v Yuri Santos>fazendo isso lá em 2 anos aqui na SAQ.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/391-0
+00:26:01.252 --> 00:26:03.892
+<v Rodrigo Lima>Não, é isso aí, basically.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/392-0
+00:26:04.532 --> 00:26:09.660
+<v Yuri Santos>Mano, sei lá, qualquer coisa eu não sei,
+a gente não sei como é que eu posso</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/392-1
+00:26:09.660 --> 00:26:14.655
+<v Yuri Santos>ajudar de alguma forma. É vocês, é,
+seja vendo a documentacao saq digital,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/392-2
+00:26:14.655 --> 00:26:17.652
+<v Yuri Santos>a gente vai desenrolando a regra de
+negócio.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/395-0
+00:26:18.132 --> 00:26:23.252
+<v Yuri Santos>Mas se eu puder ajudar vocês,
+pode pode me chamar, tá ligado? É.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/393-0
+00:26:21.412 --> 00:26:21.572
+<v Rodrigo Lima>Okay.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/394-0
+00:26:23.212 --> 00:26:23.732
+<v Rodrigo Lima>Really well.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/398-0
+00:26:23.732 --> 00:26:26.675
+<v Rodrigo Barros>É, então,
+eu tô vendo se eu organizo uma dele desse</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/398-1
+00:26:26.675 --> 00:26:29.732
+<v Rodrigo Barros>projeto, tá ligado?
+Pra poder ir acompanhando também.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/396-0
+00:26:27.772 --> 00:26:28.132
+<v Yuri Santos>Mhm.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/397-0
+00:26:28.492 --> 00:26:28.532
+<v Rodrigo Lima>Oh.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/400-0
+00:26:30.372 --> 00:26:32.692
+<v Yuri Santos>Sim, uhum, beleza. Beleza.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/399-0
+00:26:32.252 --> 00:26:32.612
+<v Rodrigo Barros>And yes.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/401-0
+00:26:32.292 --> 00:26:35.693
+<v Rodrigo Lima>Não, vai ser ótimo.
+Tem muita coisinha que eu não sei ainda,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/401-1
+00:26:35.693 --> 00:26:35.972
+<v Rodrigo Lima>sabe?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/402-0
+00:26:36.532 --> 00:26:39.159
+<v Rodrigo Barros>É e tem,
+é e tem que pegar dos caras também,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/402-1
+00:26:39.159 --> 00:26:40.852
+<v Rodrigo Barros>que ninguém sabe, na verdade.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/410-0
+00:26:41.372 --> 00:26:45.044
+<v Yuri Santos>deixa eu entrar aqui na outra agenda aqui,
+galera,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/403-0
+00:26:43.252 --> 00:26:43.972
+<v Rodrigo Lima>Consent is.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/410-1
+00:26:45.044 --> 00:26:49.004
+<v Yuri Santos>qual que a gente faz mais uma dessa para
+trocar ideia,</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/404-0
+00:26:46.452 --> 00:26:48.292
+<v Rodrigo Lima>Então, show de bola. Valeu, Yuri.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/405-0
+00:26:48.692 --> 00:26:49.492
+<v Rodrigo Barros>Time.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/410-2
+00:26:49.004 --> 00:26:54.692
+<v Yuri Santos>que eu puder ajudar eu fico à disposição,
+tá bom? Fica com Deus, tchau, tchau.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/406-0
+00:26:49.772 --> 00:26:50.292
+<v Rodrigo Lima>Pretty well.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/407-0
+00:26:52.372 --> 00:26:53.812
+<v Rodrigo Lima>So, what have you regarded it?</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/409-0
+00:26:53.652 --> 00:26:54.212
+<v Rodrigo Barros>Jojo Bob.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/411-0
+00:26:55.492 --> 00:26:57.212
+<v Rodrigo Barros>Valeu, valeu, Lima. Abraço Lima.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/414-0
+00:26:56.612 --> 00:26:59.812
+<v Rodrigo Lima>Valeu, irmão! Abraço! Fernando. Valeu!</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/412-0
+00:26:58.212 --> 00:26:58.652
+<v Rodrigo Barros>Available.</v>
+
+37a3063b-a212-475b-bb3c-0ac5a773afb5/413-0
+00:26:59.692 --> 00:26:59.972
+<v Rodrigo Barros>Time.</v>

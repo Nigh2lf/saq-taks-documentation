@@ -2,6 +2,8 @@
 
 Escrito em 19/10/2026 para a discussão de arquitetura. Compara três caminhos para o mesmo escopo (SPEI via Fintoc, portal, API pública e backoffice). Em todos os três o México tem **banco próprio, ledger próprio, autenticação própria e backoffice próprio**: isso já está decidido e está em `Reaproveitamento.md`. O que muda aqui é **quanto da plataforma SaQ (libs, CI, cluster, infra) o México usa**.
 
+> **Decisão (20/10/2026):** o México tem conta AWS própria e usa da SaQ as libs base, o `saq-ci`, o `Kubernetes-manifest` e o `saq-infra`. Na prática, é a opção 1 com a conta separada da opção 3. A SaQ já faz isso com os clientes whitelabel, que têm uma conta por ambiente. O detalhe está na seção 9 do `Reaproveitamento.md`.
+
 ## 1. As três opções em uma frase
 
 | | Opção | Em uma frase |
