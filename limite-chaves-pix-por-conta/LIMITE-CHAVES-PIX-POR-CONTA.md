@@ -1,6 +1,6 @@
 # Limite de chaves Pix ativas por conta
 
-**Data:** 15/10/2026 · **Branch:** `feature/pix-key-active-limit` em 6 repositórios · **Estado:** PRs abertos em 15/10 (ver seção PRs)
+**Data:** 15/10/2026 · **Branch:** `feature/pix-key-active-limit` em 6 repositórios · **Estado:** 6 PRs mergeados em 27/10 (ver seção PRs) · **Guia do front:** `FRONTEND-LIMITE-CHAVES-PIX.md`
 **Diagrama:** `FLUXO-LIMITE-CHAVES-PIX.drawio` (aba 1 arquitetura, aba 2 fluxo de decisão)
 
 ## Demanda
