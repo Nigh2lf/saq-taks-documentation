@@ -34,6 +34,5 @@ Organizada em 28/10/2026 em três pastas. Comece por `entendimento/GuiaInicial.m
 
 | Pasta | Conteúdo |
 | --- | --- |
-| `Onboarding/` | Abertura de conta: sandbox local, infra na AWS e validação ponta a ponta. |
-
-Próxima tarefa prevista: `SPEI/` (SPEI IN, SPEI OUT e cobrança).
+| `Onboarding/` | Abertura de conta: sandbox local, infra na AWS e validação ponta a ponta. Concluída em hml (28/10). |
+| `SPEI/` | SPEI IN, SPEI OUT e cobrança. Levantamento inicial: referência do Pix no SaQ, situação do México, mapeamento, ordem de construção e decisões em aberto. Não iniciada. |
