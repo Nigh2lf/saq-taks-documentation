@@ -28,6 +28,7 @@ Organizada em 28/10/2026 em três pastas. Comece por `entendimento/GuiaInicial.m
 | Arquivo | Conteúdo |
 | --- | --- |
 | `Fluxo-Onboarding-Mexico.drawio` | Fluxo do onboarding: pedido, aprovação no backoffice, fila, lambda, Fintoc. |
+| `Fluxo-SPEI-IN-Mexico.drawio` | Proposta do fluxo de SPEI IN (30/10): webhook da Fintoc, receptor com inbox e dedup, fila, lambda de crédito com tarifa, Valkey, notificação ao cliente; página 2 com os estados e página 3 com premissas e decisões em aberto. Nada implementado. |
 | `Arquitetura-Mexico-hml.drawio` | Arquitetura da conta `qasmexhml` como ficou em 28/10 (EKS, RDS, Secrets, SQS, lambda, Amplify, Fintoc). Cópia de `SAQ/arquitetura-mexico.drawio`. |
 
 ## tarefas/
